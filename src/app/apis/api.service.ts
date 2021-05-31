@@ -9,6 +9,9 @@ import {ParishionerInput} from "../models/parishioner-input";
 import {AdditionalInfo} from "../models/additional-info";
 import {ParishionerDetail} from "../models/parishioner-detail";
 import { MeetingInput } from '../models/meeting-input';
+import { GroupToMeeting } from '../models/group-to-meeting';
+import { ParishionerToMeeting } from '../models/parishioner-to-meeting';
+import { GroupInput } from '../models/group-input';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +27,14 @@ export class ApiService {
   public getAccess() : Observable<ParishionerAccess[]>{
     return this.httpClient.get<ParishionerAccess[]>(this.url + "homepage", {headers: this.AuthHeader()})
   }
+
+  public registerEntrance(idParishioner: number) : Observable<string>{
+    return this.httpClient.get<string>(this.url + "registerEntrance?idParishioner=" + idParishioner.toString(), {headers: this.AuthHeader()})
+  }
+  
+  public registerExit(idParishioner: number) : Observable<string>{
+    return this.httpClient.get<string>(this.url + "registerExit?idParishioner=" + idParishioner.toString(), {headers: this.AuthHeader()})
+  }
   
   // ========================== CHIAMATE PER PARISHIONERS ================================================
   public getParishioners() : Observable<Parishioner[]>{
@@ -32,6 +43,10 @@ export class ApiService {
 
   public addParishioner(input : ParishionerInput){
     return this.httpClient.post(this.url + "createParishioner", input, {headers: this.AuthHeader()})
+  }
+
+  public modifyParishioner (input : Parishioner){
+    return this.httpClient.post(this.url + "modifyParishioner", input, {headers: this.AuthHeader()})
   }
 
   public addAdditionalInfoToParishioner(input : AdditionalInfo){
@@ -68,6 +83,29 @@ export class ApiService {
     return this.httpClient.post(this.url + "createMeeting", input, {headers: this.AuthHeader()})
   }
 
+  public addGroupToMeeting(input : GroupToMeeting){
+    return this.httpClient.post(this.url + "addGroupToMeeting", input, {headers: this.AuthHeader()})
+  }
+
+  public addParishionerToMeeting(input : ParishionerToMeeting){
+    return this.httpClient.post(this.url + "addParishionerToMeeting", input, {headers: this.AuthHeader()})
+  }
+
+  public modifyMeeting(input : Meeting){
+    return this.httpClient.post(this.url + "modifyMeeting", input, {headers: this.AuthHeader()})
+  }
+
+  public removeParishionerFromMeeting (idParishioner : number , idMeeting: number){
+    return this.httpClient.delete(this.url + "removeParishionerFromMeeting?idParishioner=" + idParishioner.toString() + "&idMeeting=" + idMeeting, {headers: this.AuthHeader()})
+  }
+
+  public removeGroupFromMeeting (idGroup : number , idMeeting: number){
+    return this.httpClient.delete(this.url + "removeGroupFromMeeting?idParishioner=" + idGroup.toString() + "&idMeeting=" + idMeeting, {headers: this.AuthHeader()})
+  }
+
+  public deleteMeeting (idMeeting: number){
+    return this.httpClient.delete(this.url + "deleteMeeting?idMeeting=" + idMeeting, {headers: this.AuthHeader()})
+  }
   //===============================================================================
   
   //========================================================= CHIAMATE GROUPS ============================================================
@@ -76,7 +114,29 @@ export class ApiService {
     return this.httpClient.get<Group[]>(this.url + "groups", {headers: this.AuthHeader()})
   }
 
-  
+  public getGroupMemebers(idGroup: number) : Observable<Parishioner[]>{
+    return this.httpClient.get<Parishioner[]>(this.url + "groupsMembers?idGroup=" + idGroup.toString(), {headers: this.AuthHeader()})
+  }
+
+  public createGroup(input : GroupInput){
+    return this.httpClient.post(this.url + "createGroup", input, {headers: this.AuthHeader()})
+  }
+
+  public addParishionerToGroup(input : ParishionerToMeeting){
+    return this.httpClient.post(this.url + "addParishionerToGroup", input, {headers: this.AuthHeader()})
+  }
+
+  public modifyGroup(input : Group){
+    return this.httpClient.post(this.url + "modifyGroup", input, {headers: this.AuthHeader()})
+  }
+
+  public removeParishionerFromGroup (idParishioner : number , idGroup: number){
+    return this.httpClient.delete(this.url + "removeParishionerFromGroup?idParishioner=" + idParishioner.toString() + "&idGroup=" + idGroup, {headers: this.AuthHeader()})
+  }
+
+  public deleteGroup (idGroup : number){
+    return this.httpClient.delete(this.url + "deleteGroup?idGroup=" + idGroup.toString(), {headers: this.AuthHeader()})
+  }
   // ===============================================================================
 
 
