@@ -12,6 +12,7 @@ import { MeetingInput } from '../models/meeting-input';
 import { GroupToMeeting } from '../models/group-to-meeting';
 import { ParishionerToMeeting } from '../models/parishioner-to-meeting';
 import { GroupInput } from '../models/group-input';
+import { UserCredentials } from '../models/user-credentials';
 
 @Injectable({
   providedIn: 'root'
@@ -36,6 +37,10 @@ export class ApiService {
     return this.httpClient.get<string>(this.url + "registerExit?idParishioner=" + idParishioner.toString(), {headers: this.AuthHeader()})
   }
   
+  public registerUser(input : UserCredentials) {
+    return this.httpClient.post(this.url + "registerUser", input, {headers: this.AuthHeader()})
+  }
+
   // ========================== CHIAMATE PER PARISHIONERS ================================================
   public getParishioners() : Observable<Parishioner[]>{
     return this.httpClient.get<Parishioner[]>(this.url + "parishioners", {headers: this.AuthHeader()})
