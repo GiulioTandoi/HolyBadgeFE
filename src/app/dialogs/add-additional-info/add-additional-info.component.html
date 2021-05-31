@@ -1,0 +1,27 @@
+
+<h3>Aggiungi informazioni al parrocchiano</h3>
+
+<form [formGroup]="addParishionerInfoForm" (ngSubmit)="onSubmit()">
+
+  <div fxLayout="column" fxLayoutGap="32px">
+    <p>
+      <mat-form-field>
+        <input type="text" matInput placeholder="Tipo informazione" formControlName="infoName">
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field>
+        <input type="text" matInput placeholder="Valore informazione" formControlName="infoValue">
+      </mat-form-field>
+    </p>
+
+
+    <button mat-raised-button type="submit">Aggiungi informazioni al parrocchiano</button>
+  </div>
+
+
+
+
+</form>
+

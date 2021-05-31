@@ -1,0 +1,18 @@
+<div fxLayout="column" fxLayoutGap="32px">
+<zxing-scanner #scanner
+  (scanError)="scanErrorHandler($event)"
+  (scanSuccess)="scanSuccessHandler($event)"
+  (scanComplete)="scanCompleteHandler($event)"
+  (scanFailure)="scanFailureHandler($event)"
+></zxing-scanner>
+
+
+<!--<p *ngIf="status == 0">WAITING FOR QR</p>
+<p *ngIf="status == 1">API CALL SUCCESS</p>
+<p *ngIf="status == 2">API CALL LOADING</p>
+<p *ngIf="status == 3">API CALL FAILURE</p>-->
+
+  <ng-lottie *ngIf="status == 0" [height]="'128px'" [width]="'128px'" [options]="optionsQr" (animationCreated)="animationCreated($event)" fxLayoutAlign="center"></ng-lottie>
+  <ng-lottie *ngIf="status == 1" [height]="'256px'" [width]="'256px'" [options]="optionsSuccess" (animationCreated)="animationCreated($event)" fxLayoutAlign="center"></ng-lottie>
+  <ng-lottie *ngIf="status == 3" [height]="'256px'" [width]="'256px'" [options]="optionsFailure" (animationCreated)="animationCreated($event)" fxLayoutAlign="center"></ng-lottie>
+</div>

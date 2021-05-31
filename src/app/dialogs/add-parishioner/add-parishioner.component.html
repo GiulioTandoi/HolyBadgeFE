@@ -1,0 +1,37 @@
+
+  <h3>Aggiungi parrocchiano</h3>
+
+    <form [formGroup]="addParishionerForm" (ngSubmit)="onSubmit()">
+
+      <div fxLayout="column" fxLayoutGap="32px">
+        <p>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Name" formControlName="name">
+          </mat-form-field>
+        </p>
+
+        <p>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Surname" formControlName="surname">
+          </mat-form-field>
+        </p>
+
+        <p>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Phone number" formControlName="phoneNumber">
+          </mat-form-field>
+        </p>
+
+        <p>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Note" formControlName="note">
+          </mat-form-field>
+        </p>
+        <button mat-raised-button type="submit">Aggiungi parrocchiano</button>
+      </div>
+
+
+
+
+    </form>
+

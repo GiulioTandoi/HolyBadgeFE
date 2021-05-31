@@ -1,0 +1,6 @@
+export enum QrCodeStatus{
+  WAITING_FOR_QR,
+  API_CALL_SUCCESS,
+  API_CALL_LOADING,
+  API_CALL_FAILED
+}

@@ -1,0 +1,79 @@
+<h2 class="title">Dati parrocchiano</h2>
+<div fxLayout="row" fxLayoutAlign="space-around">
+  <div fxLayout="column" fxLayoutGap="">
+
+
+    <form [formGroup]="updateParishionerForm" (ngSubmit)="onSubmit()">
+
+      <div fxLayout="column" fxLayoutGap="16px">
+        <input type="hidden"  formControlName="id">
+        <p>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Name" formControlName="name">
+          </mat-form-field>
+        </p>
+
+        <p>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Surname" formControlName="surname">
+          </mat-form-field>
+        </p>
+
+        <p>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Phone number" formControlName="phoneNumber">
+          </mat-form-field>
+        </p>
+
+        <p>
+          <mat-form-field>
+            <input type="text" matInput placeholder="Note" formControlName="note">
+          </mat-form-field>
+        </p>
+        <button mat-raised-button type="submit">Modifica dati parrocchiano</button>
+      </div>
+
+
+
+
+    </form>
+  </div>
+  <div fxLayout="column">
+
+
+    <div class="container">
+      <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
+      </mat-form-field>
+
+      <div class="mat-elevation-z8">
+        <table mat-table [dataSource]="dataSource" matSort>
+
+          <ng-container matColumnDef="infoName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-header-row"> Tipo informazione </th>
+            <td mat-cell *matCellDef="let row"> {{row.infoName}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="infoValue">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-header-row"> Valore Informazione </th>
+            <td mat-cell *matCellDef="let row"> {{row.infoValue}} </td>
+          </ng-container>
+
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)"></tr>
+
+          <!-- Row shown when there is no matching data. -->
+          <tr class="mat-cell-no-hover" *matNoDataRow>
+            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
+          </tr>
+        </table>
+
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+      </div>
+
+    </div>
+  </div>
+
+</div>
