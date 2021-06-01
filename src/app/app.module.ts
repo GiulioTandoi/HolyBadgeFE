@@ -40,6 +40,8 @@ import { AddParishionerComponent } from './dialogs/add-parishioner/add-parishion
 import { AddAdditionalInfoComponent } from './dialogs/add-additional-info/add-additional-info.component';
 import { SelectScanComponent } from './main/select-scan/select-scan.component';
 import {MatRippleModule} from "@angular/material/core";
+import { AddMeetingComponent } from './dialogs/add-meeting/add-meeting.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
 
 // Note we need a separate function as it's required
 // by the AOT compiler.
@@ -79,7 +81,8 @@ const appRoutes: Routes = [
     MeetingListComponent,
     AddParishionerComponent,
     AddAdditionalInfoComponent,
-    SelectScanComponent
+    SelectScanComponent,
+    AddMeetingComponent
   ],
   imports: [
     BrowserModule,
@@ -104,7 +107,8 @@ const appRoutes: Routes = [
     MatProgressSpinnerModule,
     MatFabMenuModule,
     MatDialogModule,
-    MatRippleModule
+    MatRippleModule,
+    MatDatepickerModule
   ],
   providers: [{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}},
@@ -114,7 +118,8 @@ const appRoutes: Routes = [
     ApiService
   ],
   entryComponents: [
-    AddParishionerComponent
+    AddParishionerComponent,
+    AddMeetingComponent
   ],
   bootstrap: [AppComponent],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]

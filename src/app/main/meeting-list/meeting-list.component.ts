@@ -5,6 +5,9 @@ import {MatSort} from "@angular/material/sort";
 import {Router} from "@angular/router";
 import {ApiService} from "../../apis/api.service";
 import {Meeting} from "../../models/meeting";
+import { AddMeetingComponent } from 'src/app/dialogs/add-meeting/add-meeting.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatFabMenu } from '@angular-material-extensions/fab-menu';
 
 @Component({
   selector: 'app-meeting-list',
@@ -19,9 +22,19 @@ export class MeetingListComponent implements OnInit,AfterViewInit {
   @ViewChild(MatSort) sort !: MatSort;
 
   constructor(private router: Router,
-              private apiService: ApiService) {
+              private apiService: ApiService,
+              private dialog: MatDialog) {
     this.dataSource = new MatTableDataSource<Meeting>();
   }
+
+  fabButtonsRandom: MatFabMenu[] = [
+    {
+      id: 1,
+      icon: 'people',
+      tooltip: 'aggiungi incontro',
+      tooltipPosition: 'left',
+    }
+  ];
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -57,4 +70,20 @@ export class MeetingListComponent implements OnInit,AfterViewInit {
       }
     )
   }
+
+  openDialog(event : any) {
+    switch (event){
+      case 1:
+        const dialogRef = this.dialog.open(AddMeetingComponent);
+
+        dialogRef.afterClosed().subscribe(result => {
+          this.getMeetings()
+        });
+        break;
+      default:
+        break;
+    }
+
+  }
+
 }
