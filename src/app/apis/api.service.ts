@@ -12,8 +12,8 @@ import { MeetingInput } from '../models/meeting-input';
 import { GroupToMeeting } from '../models/group-to-meeting';
 import { ParishionerToMeeting } from '../models/parishioner-to-meeting';
 import { GroupInput } from '../models/group-input';
-import { UserCredentials } from '../models/user-credentials';
-import {AdditionalInfoInput} from "../models/additional-info-input";
+import {UserCredentials} from "../models/user-credentials";
+
 
 @Injectable({
   providedIn: 'root'
@@ -30,14 +30,6 @@ export class ApiService {
     return this.httpClient.get<ParishionerAccess[]>(this.url + "homepage", {headers: this.AuthHeader()})
   }
 
-  public registerEntrance(idParishioner: number) : Observable<string>{
-    return this.httpClient.get<string>(this.url + "registerEntrance?idParishioner=" + idParishioner.toString(), {headers: this.AuthHeader()})
-  }
-  
-  public registerExit(idParishioner: number) : Observable<string>{
-    return this.httpClient.get<string>(this.url + "registerExit?idParishioner=" + idParishioner.toString(), {headers: this.AuthHeader()})
-  }
-  
   public registerUser(input : UserCredentials) {
     return this.httpClient.post(this.url + "registerUser", input, {headers: this.AuthHeader()})
   }
@@ -51,9 +43,6 @@ export class ApiService {
     return this.httpClient.post(this.url + "createParishioner", input, {headers: this.AuthHeader()})
   }
 
-  public addAdditionalInfoToParishioner(input : AdditionalInfoInput){
-    return this.httpClient.post(this.url + "addAdditionalInfo", input, {headers: this.AuthHeader()})
-  }
   public modifyParishioner (input : Parishioner){
     return this.httpClient.post(this.url + "modifyParishioner", input, {headers: this.AuthHeader()})
   }
