@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
           if(response.role == "admin"){
             this.router.navigate(['/main/parishioner-list'])
           }else {
-            this.router.navigate(['/main/scan'])
+            this.router.navigate(['/select-scan'])
           }
 
         },

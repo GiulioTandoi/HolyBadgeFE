@@ -13,12 +13,13 @@ import { GroupToMeeting } from '../models/group-to-meeting';
 import { ParishionerToMeeting } from '../models/parishioner-to-meeting';
 import { GroupInput } from '../models/group-input';
 import { UserCredentials } from '../models/user-credentials';
+import {AdditionalInfoInput} from "../models/additional-info-input";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  url = 'http://api-holybadge.lazydev.fun:81/holybadge/';
+  url = 'https://api-holybadge.lazydev.fun:81/holybadge/';
   constructor(private httpClient: HttpClient) { }
 
   public login(login: any){
@@ -50,6 +51,9 @@ export class ApiService {
     return this.httpClient.post(this.url + "createParishioner", input, {headers: this.AuthHeader()})
   }
 
+  public addAdditionalInfoToParishioner(input : AdditionalInfoInput){
+    return this.httpClient.post(this.url + "addAdditionalInfo", input, {headers: this.AuthHeader()})
+  }
   public modifyParishioner (input : Parishioner){
     return this.httpClient.post(this.url + "modifyParishioner", input, {headers: this.AuthHeader()})
   }
@@ -145,6 +149,13 @@ export class ApiService {
   // ===============================================================================
 
 
+  public registerEntrance(id: number){
+    return this.httpClient.get(this.url + "registerEntrance?idParishioner=" + id.toString(), {headers: this.AuthHeader(), responseType:'text'})
+  }
+
+  public registerExit(id: number){
+    return this.httpClient.get(this.url + "registerExit?idParishioner=" + id.toString(), {headers: this.AuthHeader(), responseType:'text'})
+  }
 
   public AuthHeader(): any{
     return new HttpHeaders({

@@ -1,9 +1,12 @@
-import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {Result} from "@zxing/library";
 import {ZXingScannerComponent} from "@zxing/ngx-scanner";
 import {QrCodeStatus} from "../../utils/enums/qr-code-status";
 import {AnimationOptions} from "ngx-lottie";
 import {AnimationItem} from "lottie-web";
+import {ApiService} from "../../apis/api.service";
+import {ActivatedRoute} from "@angular/router";
+import {MatSnackBar} from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-qr-scan',
@@ -12,7 +15,8 @@ import {AnimationItem} from "lottie-web";
 })
 export class QrScanComponent implements OnInit, AfterViewInit {
   status !: QrCodeStatus;
-
+  title !: string;
+  isEntrance !: boolean
   optionsQr: AnimationOptions = {
     path: '/assets/qr-scan.json',
   };
@@ -24,7 +28,9 @@ export class QrScanComponent implements OnInit, AfterViewInit {
   };
 
   @ViewChild('scanner', { static: false }) scanner !: ZXingScannerComponent ;
-  constructor() {
+  constructor(private apiService: ApiService,
+              private route: ActivatedRoute,
+              private snackBar: MatSnackBar) {
   }
 
   ngAfterViewInit(){
@@ -32,20 +38,36 @@ export class QrScanComponent implements OnInit, AfterViewInit {
     this.scanner.timeBetweenScans = 3000;
   }
   ngOnInit(): void {
-  this.status = QrCodeStatus.WAITING_FOR_QR
+    this.isEntrance = +(this.route.snapshot.paramMap.get('e')!.toString()) == 1 ? true : false
+    this.title = this.isEntrance ? "entrata" : "uscita"
+    this.status = QrCodeStatus.WAITING_FOR_QR
   }
 
 
   scanSuccessHandler($event: string) {
+    console.log($event)
     this.status = QrCodeStatus.API_CALL_LOADING
-      //if api call ok status = API_CALL_SUCCESS else status = API_CALL_FAIL
-    setTimeout(()=>{
-      this.status = QrCodeStatus.API_CALL_SUCCESS
-    }, 200)
-  }
+    if(this.isEntrance){
+     this.apiService.registerEntrance(+$event).subscribe(
+         (response) => {
+           this.status = QrCodeStatus.API_CALL_SUCCESS
+         },
+         (error) => {
+           this.status = QrCodeStatus.API_CALL_FAILED
+         }
+     )}else{
+      this.apiService.registerExit(+$event).subscribe(
+          (response) => {
+            this.openSnackBar(response, 'chiudi')
+            this.status = QrCodeStatus.API_CALL_SUCCESS
+          },
+          (error) => {
+            this.openSnackBar(error, 'chiudi')
+            this.status = QrCodeStatus.API_CALL_FAILED
+          }
+      )
+    }
 
-  scanCompleteHandler($event: Result) {
-    console.log("complete: " + $event)
   }
 
   scanFailureHandler($event: any) {
@@ -59,5 +81,11 @@ export class QrScanComponent implements OnInit, AfterViewInit {
 
   animationCreated(animationItem: AnimationItem): void {
     console.log(animationItem);
+  }
+
+  openSnackBar(message: string, action: string) {
+    this.snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 }

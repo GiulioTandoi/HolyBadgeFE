@@ -38,6 +38,8 @@ import {MatFabMenuModule} from "@angular-material-extensions/fab-menu";
 import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dialog";
 import { AddParishionerComponent } from './dialogs/add-parishioner/add-parishioner.component';
 import { AddAdditionalInfoComponent } from './dialogs/add-additional-info/add-additional-info.component';
+import { SelectScanComponent } from './main/select-scan/select-scan.component';
+import {MatRippleModule} from "@angular/material/core";
 
 // Note we need a separate function as it's required
 // by the AOT compiler.
@@ -49,7 +51,8 @@ const appRoutes: Routes = [
   { path: '', redirectTo:'login', pathMatch:'full'},
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
-  { path: 'scan', component: QrScanComponent },
+  { path: 'select-scan', component: SelectScanComponent},
+  { path: 'scan/:e', component: QrScanComponent },
   { path: 'create-qr', component: QrBuilderComponent},
   { path: 'main' ,component: MainComponent, children:[
       { path: 'parishioner-list', component: ParishionerListComponent },
@@ -75,7 +78,8 @@ const appRoutes: Routes = [
     GroupListComponent,
     MeetingListComponent,
     AddParishionerComponent,
-    AddAdditionalInfoComponent
+    AddAdditionalInfoComponent,
+    SelectScanComponent
   ],
   imports: [
     BrowserModule,
@@ -99,7 +103,8 @@ const appRoutes: Routes = [
     HttpClientModule,
     MatProgressSpinnerModule,
     MatFabMenuModule,
-    MatDialogModule
+    MatDialogModule,
+    MatRippleModule
   ],
   providers: [{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}},

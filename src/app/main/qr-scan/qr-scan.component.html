@@ -1,8 +1,9 @@
 <div fxLayout="column" fxLayoutGap="32px">
+  <h2 class="title">Registra {{title}}</h2>
+
 <zxing-scanner #scanner
   (scanError)="scanErrorHandler($event)"
   (scanSuccess)="scanSuccessHandler($event)"
-  (scanComplete)="scanCompleteHandler($event)"
   (scanFailure)="scanFailureHandler($event)"
 ></zxing-scanner>
 

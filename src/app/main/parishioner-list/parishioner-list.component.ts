@@ -33,7 +33,7 @@ export class ParishionerListComponent implements OnInit {
 
   constructor(private router: Router,
               private apiService: ApiService,
-              public dialog: MatDialog) {
+              private dialog: MatDialog) {
     this.dataSource = new MatTableDataSource<Parishioner>();
   }
 

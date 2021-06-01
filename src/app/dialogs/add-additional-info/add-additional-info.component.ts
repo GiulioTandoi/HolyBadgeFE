@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Inject, OnInit} from '@angular/core';
 import {FormControl, FormGroup} from "@angular/forms";
 import {ApiService} from "../../apis/api.service";
-import {MatDialogRef} from "@angular/material/dialog";
-import {AdditionalInfo} from "../../models/additional-info";
+import {MAT_DIALOG_DATA, MatDialogRef} from "@angular/material/dialog";
+import {AdditionalInfoInput} from "../../models/additional-info-input";
 
 @Component({
   selector: 'app-add-additional-info',
@@ -10,12 +10,14 @@ import {AdditionalInfo} from "../../models/additional-info";
   styleUrls: ['./add-additional-info.component.css']
 })
 export class AddAdditionalInfoComponent implements OnInit {
+
   addParishionerInfoForm = new FormGroup({
-    name: new FormControl(''),
-    surname: new FormControl('')
+    infoName: new FormControl(''),
+    infoValue: new FormControl('')
   });
   constructor(private apiService : ApiService,
-              public dialogRef: MatDialogRef<AddAdditionalInfoComponent>) {
+              public dialogRef: MatDialogRef<AddAdditionalInfoComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any) {
 
   }
 
@@ -27,7 +29,14 @@ export class AddAdditionalInfoComponent implements OnInit {
   }
 
   addAdditionalInfoParishioner(){
-    this.apiService.addAdditionalInfoToParishioner(this.addParishionerInfoForm.value).subscribe(
+    let body: AdditionalInfoInput={
+      idParishioner: this.data.idParishioner,
+      infoName: this.addParishionerInfoForm.value.infoName,
+      infoValue: this.addParishionerInfoForm.value.infoValue
+    }
+
+
+    this.apiService.addAdditionalInfoToParishioner(body).subscribe(
       (response) => {
         this.dialogRef.close(response)
       },

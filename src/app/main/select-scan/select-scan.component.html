@@ -1,0 +1,26 @@
+<div fxLayout="column" class="container" fxLayoutGap="32px">
+
+    <mat-card (click)="openScanner(1)"
+            matRipple
+              [matRippleCentered]="true"
+              [matRippleDisabled]="false"
+              [matRippleUnbounded]="false"
+              class="mat-elevation-z2">
+        <mat-card-content fxLayoutAlign="center">
+            <h1 class="title">Registra entrata</h1>
+        </mat-card-content>
+    </mat-card>
+
+
+    <mat-card (click)="openScanner(0)"
+            matRipple
+              [matRippleCentered]="true"
+              [matRippleDisabled]="false"
+              [matRippleUnbounded]="false"
+              class="mat-elevation-z2">
+        <mat-card-content  fxLayoutAlign="center">
+            <h1 class="title">Registra uscita</h1>
+        </mat-card-content>
+    </mat-card>
+
+</div>

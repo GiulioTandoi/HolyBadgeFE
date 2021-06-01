@@ -1,6 +1,6 @@
 <h2 class="title">Dati parrocchiano</h2>
 <div fxLayout="row" fxLayoutAlign="space-around">
-  <div fxLayout="column" fxLayoutGap="">
+  <div fxLayout="column" fxLayoutGap="32px">
 
 
     <form [formGroup]="updateParishionerForm" (ngSubmit)="onSubmit()">
@@ -37,6 +37,10 @@
 
 
     </form>
+    <div fxLayout="column" fxLayoutGap="16px">
+      <app-qr-builder [value]="this.id"></app-qr-builder>
+      <button mat-raised-button (click)="generatePDF()">Scarica PDF Qr Code</button>
+    </div>
   </div>
   <div fxLayout="column">
 
@@ -77,3 +81,7 @@
   </div>
 
 </div>
+
+<mat-fab-menu class="md-fab-bottom-right" color="primary"
+              [fabButtons]="fabButtonsRandom"
+              (onFabMenuItemSelected)="openDialog($event)"></mat-fab-menu>
