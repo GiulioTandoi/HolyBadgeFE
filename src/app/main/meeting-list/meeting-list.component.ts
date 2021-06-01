@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
@@ -11,7 +11,7 @@ import {Meeting} from "../../models/meeting";
   templateUrl: './meeting-list.component.html',
   styleUrls: ['./meeting-list.component.css']
 })
-export class MeetingListComponent implements OnInit {
+export class MeetingListComponent implements OnInit,AfterViewInit {
   displayedColumns: string[] = ['meetingName', 'location', 'date'];
   dataSource !: MatTableDataSource<Meeting>;
 
@@ -49,7 +49,8 @@ export class MeetingListComponent implements OnInit {
     this.apiService.getMeetings().subscribe(
       (response: Meeting[]) => {
         console.log(response)
-        this.dataSource = new MatTableDataSource(response);
+        this.dataSource.data = response;
+
       },
       (error) => {
         console.log(error)

@@ -1,4 +1,4 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from "@angular/router";
 import {MatTableDataSource} from "@angular/material/table";
 import {Group} from "../../models/group";
@@ -19,7 +19,7 @@ import kjua  from 'kjua-svg';
   templateUrl: './parishioner-detail.component.html',
   styleUrls: ['./parishioner-detail.component.css']
 })
-export class ParishionerDetailComponent implements OnInit {
+export class ParishionerDetailComponent implements OnInit, AfterViewInit {
   @Input() id !: number
   displayedColumns: string[] = ['infoName', 'infoValue'];
   dataSource !: MatTableDataSource<AdditionalInfo>;
@@ -89,7 +89,7 @@ export class ParishionerDetailComponent implements OnInit {
     this.apiService.getParishionerDetails(id).subscribe(
       (response) => {
         console.log(response)
-        this.dataSource = new MatTableDataSource(response.additionalInfos);
+        this.dataSource.data = response.additionalInfos;
         this.parishionerData = response.parishionerBaseInfo
         this.updateParishionerForm.controls.id.setValue(this.parishionerData.id)
         this.updateParishionerForm.controls.name.setValue(this.parishionerData.name)

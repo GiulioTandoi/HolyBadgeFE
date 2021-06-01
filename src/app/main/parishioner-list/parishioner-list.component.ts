@@ -1,4 +1,4 @@
-import {Component, OnInit, ViewChild} from '@angular/core';
+import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {MatSort} from "@angular/material/sort";
@@ -15,7 +15,7 @@ import {AddParishionerComponent} from "../../dialogs/add-parishioner/add-parishi
   templateUrl: './parishioner-list.component.html',
   styleUrls: ['./parishioner-list.component.css']
 })
-export class ParishionerListComponent implements OnInit {
+export class ParishionerListComponent implements OnInit, AfterViewInit{
   fabButtonsRandom: MatFabMenu[] = [
     {
       id: 1,
@@ -65,9 +65,7 @@ export class ParishionerListComponent implements OnInit {
     this.apiService.getParishioners().subscribe(
       (response) => {
         console.log(response);
-        this.dataSource = new MatTableDataSource<Parishioner>(response);
-        this.dataSource.paginator = this.paginator;
-        this.dataSource.sort = this.sort;
+        this.dataSource.data = response;
       },
       (error) => {
         console.log(error)

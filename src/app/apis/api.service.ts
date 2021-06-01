@@ -48,7 +48,7 @@ export class ApiService {
   }
 
   public addAdditionalInfoToParishioner(input : AdditionalInfo){
-    return this.httpClient.post(this.url + "addAdditionalInfoToParishioner", input, {headers: this.AuthHeader()})
+    return this.httpClient.post(this.url + "addAdditionalInfo", input, {headers: this.AuthHeader()})
   }
 
   public addAdditionalInfoToAll(input : AdditionalInfo){
