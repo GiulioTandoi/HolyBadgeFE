@@ -104,7 +104,10 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-
+    this.apiService.modifyParishioner(this.updateParishionerForm.value).subscribe(
+      response => {this.getParishionerDetails(this.id)},
+      error => {console.error(error)}
+    );
   }
 
   openDialog(event : any) {

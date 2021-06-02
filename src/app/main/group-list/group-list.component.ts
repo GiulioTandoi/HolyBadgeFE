@@ -58,7 +58,7 @@ export class GroupListComponent implements OnInit,AfterViewInit {
   }
 
   onRowClick(row: Group) {
-
+    this.router.navigate(['/main/group-detail', row.id]);
   }
 
   private getGroups() {

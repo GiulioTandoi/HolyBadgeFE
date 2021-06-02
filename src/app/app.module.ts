@@ -39,10 +39,12 @@ import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dia
 import { AddParishionerComponent } from './dialogs/add-parishioner/add-parishioner.component';
 import { AddAdditionalInfoComponent } from './dialogs/add-additional-info/add-additional-info.component';
 import { SelectScanComponent } from './main/select-scan/select-scan.component';
-import {MatRippleModule} from "@angular/material/core";
+import {MatPseudoCheckboxModule, MatRippleModule} from "@angular/material/core";
 import { AddMeetingComponent } from './dialogs/add-meeting/add-meeting.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { AddGroupComponent } from './dialogs/add-group/add-group.component';
+import { GroupDetailComponent } from './main/group-detail/group-detail.component';
+import {MatCheckboxModule} from '@angular/material/checkbox';
 
 // Note we need a separate function as it's required
 // by the AOT compiler.
@@ -63,7 +65,8 @@ const appRoutes: Routes = [
       { path: 'meeting-list', component: MeetingListComponent },
       { path: 'group-list', component: GroupListComponent },
       { path: 'access-list', component: AccessListComponent },
-      { path: 'register', component: RegisterComponent }
+      { path: 'register', component: RegisterComponent },
+      { path: 'group-detail/:id', component: GroupDetailComponent }
     ]
   }
 ];
@@ -85,7 +88,8 @@ const appRoutes: Routes = [
     AddAdditionalInfoComponent,
     SelectScanComponent,
     AddMeetingComponent,
-    AddGroupComponent
+    AddGroupComponent,
+    GroupDetailComponent
   ],
   imports: [
     BrowserModule,
@@ -111,7 +115,8 @@ const appRoutes: Routes = [
     MatFabMenuModule,
     MatDialogModule,
     MatRippleModule,
-    MatDatepickerModule
+    MatDatepickerModule,
+    MatCheckboxModule
   ],
   providers: [{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}},

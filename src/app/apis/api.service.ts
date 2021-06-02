@@ -14,6 +14,7 @@ import { ParishionerToMeeting } from '../models/parishioner-to-meeting';
 import { GroupInput } from '../models/group-input';
 import {UserCredentials} from "../models/user-credentials";
 import { ParishionersToGroup } from '../models/parishioner-to-group';
+import { ParishionerOfGroup } from '../models/parishioner-of-group';
 
 
 @Injectable({
@@ -113,8 +114,8 @@ export class ApiService {
     return this.httpClient.get<Group[]>(this.url + "groups", {headers: this.AuthHeader()})
   }
 
-  public getGroupMemebers(idGroup: number) : Observable<Parishioner[]>{
-    return this.httpClient.get<Parishioner[]>(this.url + "groupsMembers?idGroup=" + idGroup.toString(), {headers: this.AuthHeader()})
+  public getGroupMembers(idGroup: number) : Observable<ParishionerOfGroup[]>{
+    return this.httpClient.get<ParishionerOfGroup[]>(this.url + "groupsMembers?idGroup=" + idGroup.toString(), {headers: this.AuthHeader()})
   }
 
   public createGroup(input : GroupInput){
