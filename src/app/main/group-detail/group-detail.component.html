@@ -1,7 +1,9 @@
 <h2 class="title">Dati Gruppo</h2>
+<br>
 <div fxLayout="row" fxLayoutAlign="space-around">
-  <div fxLayout="column" fxLayoutGap="32px">
 
+  <div fxLayout="column" fxLayoutGap="32px">
+    <h3 class="title">TABELLA NON MEMBRI</h3>
     <div class="container">
     <mat-form-field>
         <mat-label>Filter</mat-label>
@@ -53,10 +55,10 @@
 
     </div>
   </div>
-  <div fxLayout="column">
+  <div fxLayout="column" fxLayoutGap ="32px">
 
-
-    <div class="container">
+    <h3 class="title">TABELLA MEMBRI</h3>
+    <div class="container" >
       <mat-form-field>
         <mat-label>Filter</mat-label>
         <input matInput (keyup)="applyFilterForNotMembers($event)" placeholder="Ex. Mia" #input>

@@ -4,6 +4,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
+import { zip } from 'rxjs';
 import { ApiService } from 'src/app/apis/api.service';
 import { Parishioner } from 'src/app/models/parishioner';
 import { ParishionerOfGroup } from 'src/app/models/parishioner-of-group';
@@ -73,7 +74,6 @@ export class GroupDetailComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
   }
-
   
   applyFilterForNotMembers(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -99,8 +99,8 @@ export class GroupDetailComponent implements OnInit {
     this.apiService.getGroupMembers(id).subscribe(
       (response) => {
         console.log(response)
-        this.dataSource.data = response;
-        
+        this.dataSource.data = response.filter(x => !x.member);
+        this.dataSourceForNotMembers.data = response.filter(x => x.member);
       },
       (error) => {
         console.log(error)

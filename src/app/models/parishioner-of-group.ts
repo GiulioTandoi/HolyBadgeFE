@@ -4,7 +4,7 @@ export interface ParishionerOfGroup{
     surname: string
     phoneNumber: string
     note: string,
-    membership: boolean
+    member: boolean
   
   }
   
