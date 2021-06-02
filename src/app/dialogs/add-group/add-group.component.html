@@ -1,0 +1,17 @@
+<h3>Aggiungi Incontro</h3>
+
+<form [formGroup]="AddGroupForm" (ngSubmit)="onSubmit()">
+
+  <div fxLayout="column" fxLayoutGap="32px">
+    <p>
+      <mat-form-field>
+        <input type="text" matInput placeholder="Nome del gruppo" formControlName="name">
+      </mat-form-field>
+    </p>
+
+    <button mat-raised-button type="submit">Crea Gruppo</button>
+  </div>
+
+
+</form>
+

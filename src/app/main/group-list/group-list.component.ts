@@ -6,6 +6,9 @@ import {MatSort} from "@angular/material/sort";
 import {Router} from "@angular/router";
 import {ApiService} from "../../apis/api.service";
 import {Group} from "../../models/group";
+import { AddGroupComponent } from 'src/app/dialogs/add-group/add-group.component';
+import { MatFabMenu } from '@angular-material-extensions/fab-menu';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-group-list',
@@ -22,9 +25,19 @@ export class GroupListComponent implements OnInit,AfterViewInit {
   @ViewChild(MatSort) sort : MatSort;
 
   constructor(private router: Router,
-              private apiService: ApiService) {
+              private apiService: ApiService,
+              private dialog: MatDialog) {
     this.dataSource = new MatTableDataSource<Group>();
   }
+
+  fabButtonsRandom: MatFabMenu[] = [
+    {
+      id: 1,
+      icon: 'group_work',
+      tooltip: 'crea gruppo',
+      tooltipPosition: 'left',
+    }
+  ];
 
   ngAfterViewInit() :void{
     this.dataSource.paginator = this.paginator;
@@ -59,4 +72,21 @@ export class GroupListComponent implements OnInit,AfterViewInit {
       }
     )
   }
+
+
+  openDialog(event : any) {
+    switch (event){
+      case 1:
+        const dialogRef = this.dialog.open(AddGroupComponent);
+
+        dialogRef.afterClosed().subscribe(result => {
+          this.getGroups()
+        });
+        break;
+      default:
+        break;
+    }
+
+  }
+
 }

@@ -42,6 +42,7 @@ import { SelectScanComponent } from './main/select-scan/select-scan.component';
 import {MatRippleModule} from "@angular/material/core";
 import { AddMeetingComponent } from './dialogs/add-meeting/add-meeting.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
+import { AddGroupComponent } from './dialogs/add-group/add-group.component';
 
 // Note we need a separate function as it's required
 // by the AOT compiler.
@@ -82,7 +83,8 @@ const appRoutes: Routes = [
     AddParishionerComponent,
     AddAdditionalInfoComponent,
     SelectScanComponent,
-    AddMeetingComponent
+    AddMeetingComponent,
+    AddGroupComponent
   ],
   imports: [
     BrowserModule,
@@ -119,7 +121,8 @@ const appRoutes: Routes = [
   ],
   entryComponents: [
     AddParishionerComponent,
-    AddMeetingComponent
+    AddMeetingComponent,
+    AddGroupComponent
   ],
   bootstrap: [AppComponent],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]

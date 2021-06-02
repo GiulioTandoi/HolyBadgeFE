@@ -31,7 +31,7 @@ export class MeetingListComponent implements OnInit,AfterViewInit {
     {
       id: 1,
       icon: 'people',
-      tooltip: 'aggiungi incontro',
+      tooltip: 'crea incontro',
       tooltipPosition: 'left',
     }
   ];

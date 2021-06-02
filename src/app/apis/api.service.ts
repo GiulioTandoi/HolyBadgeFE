@@ -13,6 +13,7 @@ import { GroupToMeeting } from '../models/group-to-meeting';
 import { ParishionerToMeeting } from '../models/parishioner-to-meeting';
 import { GroupInput } from '../models/group-input';
 import {UserCredentials} from "../models/user-credentials";
+import { ParishionersToGroup } from '../models/parishioner-to-group';
 
 
 @Injectable({
@@ -120,8 +121,8 @@ export class ApiService {
     return this.httpClient.post(this.url + "createGroup", input, {headers: this.AuthHeader()})
   }
 
-  public addParishionerToGroup(input : ParishionerToMeeting){
-    return this.httpClient.post(this.url + "addParishionerToGroup", input, {headers: this.AuthHeader()})
+  public addParishionerToGroup(input : ParishionersToGroup){
+    return this.httpClient.post(this.url + "addParishionersToGroup", input, {headers: this.AuthHeader()})
   }
 
   public modifyGroup(input : Group){
