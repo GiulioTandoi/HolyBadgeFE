@@ -18,14 +18,15 @@
             <mat-checkbox (change)="$event ? masterToggle() : null"
                           [checked]="selection.hasValue() && isAllSelected()"
                           [indeterminate]="selection.hasValue() && !isAllSelected()"
-                          [aria-label]="checkboxLabel()">
+                            >
             </mat-checkbox>
           </th>
           <td mat-cell *matCellDef="let row">
             <mat-checkbox (click)="$event.stopPropagation()"
                           (change)="$event ? selection.toggle(row) : null"
                           [checked]="selection.isSelected(row)"
-                          [aria-label]="checkboxLabel(row)">
+                            (change)=" onSelect()"
+                          >
             </mat-checkbox>
           </td>
         </ng-container>
@@ -54,6 +55,7 @@
     </div>
 
     </div>
+      <button mat-raised-button [disabled]="notAddable" (click)="addParishionerToGroup()" type="submit">Aggiungi parrocchini al gruppo</button>
   </div>
   <div fxLayout="column" fxLayoutGap ="32px">
 
@@ -61,25 +63,25 @@
     <div class="container" >
       <mat-form-field>
         <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilterForNotMembers($event)" placeholder="Ex. Mia" #input>
+        <input matInput (keyup)="applyFilterForNotMembers($event)" placeholder="Ex. Mia" #inputForNotMember>
       </mat-form-field>
 
       <div class="mat-elevation-z8">
         <table mat-table [dataSource]="dataSourceForNotMembers" matSort #sortForNotMembers>
 
-          <ng-container matColumnDef="name">
+          <ng-container matColumnDef="nameNM">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-header-row"> Nome </th>
             <td mat-cell *matCellDef="let row"> {{row.name}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="surname">
+          <ng-container matColumnDef="surnameNM">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-header-row"> Cognome </th>
             <td mat-cell *matCellDef="let row"> {{row.surname}} </td>
           </ng-container>
 
 
           <tr mat-header-row *matHeaderRowDef="displayedColumnsForNotMembers"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumnsForNotMembers;" (click)="onRowClick(row)"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumnsForNotMembers;" ></tr>
 
           <!-- Row shown when there is no matching data. -->
           <tr class="mat-cell-no-hover" *matNoDataRow>

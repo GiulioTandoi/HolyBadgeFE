@@ -1,5 +1,5 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
@@ -14,27 +14,30 @@ import { ParishionerOfGroup } from 'src/app/models/parishioner-of-group';
   templateUrl: './group-detail.component.html',
   styleUrls: ['./group-detail.component.css']
 })
-export class GroupDetailComponent implements OnInit {
+export class GroupDetailComponent implements OnInit, AfterViewInit {
 
   @Input() id !: number
   displayedColumns: string[] = ['select', 'name', 'surname'];
+  groupMembers !: ParishionerOfGroup[];
+  notGroupMembers !: ParishionerOfGroup[];
   dataSource !: MatTableDataSource<ParishionerOfGroup>;
   selection = new SelectionModel<ParishionerOfGroup>(true, []);
+  notAddable: boolean= true
 
-  displayedColumnsForNotMembers: string[] = ['name', 'surname'];
+  displayedColumnsForNotMembers: string[] = ['nameNM', 'surnameNM'];
   dataSourceForNotMembers !: MatTableDataSource<ParishionerOfGroup>;
 
-  @ViewChild(MatPaginator) paginator !: MatPaginator;
+  @ViewChild('paginator') paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
 
-  @ViewChild(MatPaginator) paginatorForNotMembers !: MatPaginator;
+  @ViewChild('paginatorForNotMembers') paginatorForNotMembers !: MatPaginator;
   @ViewChild(MatSort) sortForNotMembers !: MatSort;
 
   constructor(private route: ActivatedRoute,
               private apiService: ApiService)
   {
-    this.dataSource = new MatTableDataSource<ParishionerOfGroup>();
-    this.dataSourceForNotMembers = new MatTableDataSource<ParishionerOfGroup>();
+    this.dataSource = new MatTableDataSource<ParishionerOfGroup>([]);
+    this.dataSourceForNotMembers = new MatTableDataSource<ParishionerOfGroup>([]);
   }
 
   isAllSelected() {
@@ -46,24 +49,37 @@ export class GroupDetailComponent implements OnInit {
   masterToggle() {
     if (this.isAllSelected()) {
       this.selection.clear();
+      this.notAddable = true;
       return;
     }
 
     this.selection.select(...this.dataSource.data);
+    this.notAddable = false;
   }
 
-  checkboxLabel(row?: ParishionerOfGroup): string {
-    if (!row) {
-      return `${this.isAllSelected() ? 'deselect' : 'select'} all`;
+  onSelect(){
+    if(this.selection.selected.length > 0) {
+      this.notAddable = false;
+    }else{
+      this.notAddable = true;
     }
-    return `${this.selection.isSelected(row) ? 'deselect' : 'select'} row ${row.name + 1}`;
   }
+
+  addParishionerToGroup(){
+    let body ={
+      ids:this.selection.selected.map(x=> x.id),
+      groupId:this.id
+    }
+    console.log(body)
+  }
+
 
   ngAfterViewInit() {
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
     this.dataSourceForNotMembers.paginator = this.paginatorForNotMembers;
     this.dataSourceForNotMembers.sort = this.sortForNotMembers;
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+
   }
 
   applyFilter(event: Event) {
@@ -99,8 +115,10 @@ export class GroupDetailComponent implements OnInit {
     this.apiService.getGroupMembers(id).subscribe(
       (response) => {
         console.log(response)
-        this.dataSource.data = response.filter(x => !x.member);
-        this.dataSourceForNotMembers.data = response.filter(x => x.member);
+        this.groupMembers=response.filter(x => !x.member)
+        this.notGroupMembers=response.filter(x => x.member)
+        this.dataSource.data = this.groupMembers
+        this.dataSourceForNotMembers.data = this.notGroupMembers
       },
       (error) => {
         console.log(error)

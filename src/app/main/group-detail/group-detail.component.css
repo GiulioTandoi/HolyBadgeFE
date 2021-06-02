@@ -23,6 +23,10 @@
   mat-cell-no-hover{
     text-align: center;
   }
+
+  .mat-header-cell{
+    text-align: center;
+  }
   
   .mat-header-row{
     text-align: center;
