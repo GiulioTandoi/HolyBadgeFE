@@ -63,6 +63,7 @@ const appRoutes: Routes = [
       { path: 'meeting-list', component: MeetingListComponent },
       { path: 'group-list', component: GroupListComponent },
       { path: 'access-list', component: AccessListComponent },
+      { path: 'register', component: RegisterComponent }
     ]
   }
 ];

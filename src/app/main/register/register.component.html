@@ -1,34 +1,28 @@
-<mat-card>
-  <mat-card-title>Register</mat-card-title>
-  <mat-card-content>
-    <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-      <div fxLayout="column" fxLayoutGap="32px">
+<div class="container">
+  <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+    <h1>REGISTER</h1>
+    <br>
+    <div fxLayout="column" fxLayoutGap="32px">
 
-        <p>
-          <mat-form-field>
-            <input type="text" matInput placeholder="Username" formControlName="username">
-          </mat-form-field>
-        </p>
+      <mat-form-field>
+        <input type="text" matInput placeholder="Username" formControlName="username">
+      </mat-form-field>
 
-        <p>
-          <mat-form-field>
-            <input type="text" matInput placeholder="Password" formControlName="password">
-          </mat-form-field>
-        </p>
+      <mat-form-field>
+        <input type="text" matInput placeholder="Password" formControlName="password">
+      </mat-form-field>
 
-        <h4 fxLayoutAlign="center">Select a role:</h4>
+      <h4 fxLayoutAlign="center">Seleziona un ruolo:</h4>
 
-        <div >
-          <mat-radio-group aria-label="Select a role" formControlName="role" fxLayout="row" fxLayoutAlign="space-around center" >
-            <mat-radio-button value="admin">Admin</mat-radio-button>
-            <mat-radio-button value="baseuser">Other</mat-radio-button>
-          </mat-radio-group>
-        </div>
-        <button mat-raised-button type="submit">Register</button>
+      <div >
+        <mat-radio-group aria-label="Select a role" formControlName="role" fxLayout="row" fxLayoutAlign="space-around center" >
+          <mat-radio-button value="admin">Admin</mat-radio-button>
+          <mat-radio-button value="baseuser">Other</mat-radio-button>
+        </mat-radio-group>
       </div>
-    </form>
+      <button type="submit">Register</button>
+    </div>
+  </form>
 
-  </mat-card-content>
-</mat-card>
-
+</div>
 

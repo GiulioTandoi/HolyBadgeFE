@@ -36,16 +36,13 @@ export class RegisterComponent implements OnInit {
       this.apiService.registerUser(this.registerForm.value).subscribe(
         (response: any) => {
           localStorage.setItem('token', response.token)
-          if(response.role == "admin"){
-            this.router.navigate(['/login'])
-          }else {
-            this.router.navigate(['/select-scan'])
-          }
+          
+          this.router.navigate(['/login'])
 
         },
         error => {
           console.log(error)
-          this.openSnackBar('Credenziali non corrette.', 'chiudi');
+          this.openSnackBar('Qualcosa è andato storto! Riprova', 'chiudi');
         }
       );
     }

@@ -6,6 +6,18 @@ table {
   width: 100%;
 }
 
+button {
+	border-radius: 20px;
+	border: 1px solid #FF4B2B;
+	background-color: #FF4B2B;
+	color: #FFFFFF;
+	font-size: 12px;
+	font-weight: bold;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+	transition: transform 80ms ease-in;
+}
+
 .mat-form-field {
   font-size: 14px;
   width: 100%;
