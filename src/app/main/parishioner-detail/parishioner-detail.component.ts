@@ -21,7 +21,7 @@ import kjua  from 'kjua-svg';
 })
 export class ParishionerDetailComponent implements OnInit, AfterViewInit {
   @Input() id !: number
-  displayedColumns: string[] = ['infoName', 'infoValue'];
+  displayedColumns: string[] = ['infoName', 'infoValue', 'edit', 'delete'];
   dataSource !: MatTableDataSource<AdditionalInfo>;
   parishionerData !: Parishioner;
   fabButtonsRandom: MatFabMenu[] = [
@@ -161,6 +161,14 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
       fontcolor: '#3F51B5',
       image: undefined
     });
+  }
+
+  editRow(row: AdditionalInfo) {
+    console.log()
+  }
+
+  deleteRow(row: AdditionalInfo) {
+    
   }
 }
 

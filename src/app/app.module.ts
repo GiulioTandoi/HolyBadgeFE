@@ -45,6 +45,7 @@ import {MatDatepickerModule} from '@angular/material/datepicker';
 import { AddGroupComponent } from './dialogs/add-group/add-group.component';
 import { GroupDetailComponent } from './main/group-detail/group-detail.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import {MatIconModule} from "@angular/material/icon";
 
 // Note we need a separate function as it's required
 // by the AOT compiler.
@@ -91,33 +92,34 @@ const appRoutes: Routes = [
     AddGroupComponent,
     GroupDetailComponent
   ],
-  imports: [
-    BrowserModule,
-    ZXingScannerModule,
-    NgxKjuaModule,
-    RouterModule.forRoot(
-      appRoutes,
-    ),
-    ReactiveFormsModule,
-    BrowserAnimationsModule,
-    MatCardModule,
-    MatInputModule,
-    MatButtonModule,
-    MatRadioModule,
-    FlexLayoutModule,
-    MatTableModule,
-    LottieModule.forRoot({player: playerFactory}),
-    MatPaginatorModule,
-    MatToolbarModule,
-    MatSnackBarModule,
-    HttpClientModule,
-    MatProgressSpinnerModule,
-    MatFabMenuModule,
-    MatDialogModule,
-    MatRippleModule,
-    MatDatepickerModule,
-    MatCheckboxModule
-  ],
+    imports: [
+        BrowserModule,
+        ZXingScannerModule,
+        NgxKjuaModule,
+        RouterModule.forRoot(
+            appRoutes,
+        ),
+        ReactiveFormsModule,
+        BrowserAnimationsModule,
+        MatCardModule,
+        MatInputModule,
+        MatButtonModule,
+        MatRadioModule,
+        FlexLayoutModule,
+        MatTableModule,
+        LottieModule.forRoot({player: playerFactory}),
+        MatPaginatorModule,
+        MatToolbarModule,
+        MatSnackBarModule,
+        HttpClientModule,
+        MatProgressSpinnerModule,
+        MatFabMenuModule,
+        MatDialogModule,
+        MatRippleModule,
+        MatDatepickerModule,
+        MatCheckboxModule,
+        MatIconModule
+    ],
   providers: [{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}},
     JwtHelperService,
