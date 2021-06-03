@@ -46,6 +46,7 @@ import { AddGroupComponent } from './dialogs/add-group/add-group.component';
 import { GroupDetailComponent } from './main/group-detail/group-detail.component';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatIconModule} from "@angular/material/icon";
+import { MatNativeDateModule } from '@angular/material/core';
 
 // Note we need a separate function as it's required
 // by the AOT compiler.
@@ -118,7 +119,8 @@ const appRoutes: Routes = [
         MatRippleModule,
         MatDatepickerModule,
         MatCheckboxModule,
-        MatIconModule
+        MatIconModule,
+        MatNativeDateModule
     ],
   providers: [{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}},

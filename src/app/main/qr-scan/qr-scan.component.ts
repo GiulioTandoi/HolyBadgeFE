@@ -34,8 +34,8 @@ export class QrScanComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(){
-    this.scanner.delayBetweenScanSuccess = 3000;
-    this.scanner.timeBetweenScans = 3000;
+    this.scanner.delayBetweenScanSuccess = 4000;
+    this.scanner.timeBetweenScans = 4000;
   }
   ngOnInit(): void {
     this.isEntrance = +(this.route.snapshot.paramMap.get('e')!.toString()) == 1 ? true : false

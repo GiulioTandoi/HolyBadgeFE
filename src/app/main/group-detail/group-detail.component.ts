@@ -71,7 +71,7 @@ export class GroupDetailComponent implements OnInit, AfterViewInit {
       idParishioners: this.selection.selected.map(x => x.id),
       idGroup: this.id
     }
-    this.apiService.addParishionerToGroup(body).subscribe(
+    this.apiService.addParishionersToGroup(body).subscribe(
         (response) => {
           this.getGroupDetails(this.id)
         },

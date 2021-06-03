@@ -22,11 +22,11 @@ export class AddGroupComponent implements OnInit {
   }
 
   onSubmit(){
-    this.addMeeting()
+    this.addGroup()
   }
 
-  addMeeting(){
-    this.apiService.addMeeting(this.AddGroupForm.value).subscribe(
+  addGroup(){
+    this.apiService.createGroup(this.AddGroupForm.value).subscribe(
       (response) => {
         this.dialogRef.close(response)
       },

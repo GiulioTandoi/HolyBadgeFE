@@ -15,6 +15,7 @@ import { GroupInput } from '../models/group-input';
 import {UserCredentials} from "../models/user-credentials";
 import { ParishionersToGroup } from '../models/parishioner-to-group';
 import { ParishionerOfGroup } from '../models/parishioner-of-group';
+import { ParishionersToMeeting } from '../models/parishioners-toi-meeting';
 
 
 @Injectable({
@@ -87,8 +88,8 @@ export class ApiService {
     return this.httpClient.post(this.url + "addGroupToMeeting", input, {headers: this.AuthHeader()})
   }
 
-  public addParishionerToMeeting(input : ParishionerToMeeting){
-    return this.httpClient.post(this.url + "addParishionerToMeeting", input, {headers: this.AuthHeader()})
+  public addParishionersToMeeting(input : ParishionersToMeeting){
+    return this.httpClient.post(this.url + "addParishionersToMeeting", input, {headers: this.AuthHeader()})
   }
 
   public modifyMeeting(input : Meeting){
@@ -122,7 +123,7 @@ export class ApiService {
     return this.httpClient.post(this.url + "createGroup", input, {headers: this.AuthHeader()})
   }
 
-  public addParishionerToGroup(input : ParishionersToGroup){
+  public addParishionersToGroup(input : ParishionersToGroup){
     return this.httpClient.post(this.url + "addParishionersToGroup", input, {headers: this.AuthHeader()})
   }
 
@@ -138,7 +139,6 @@ export class ApiService {
     return this.httpClient.delete(this.url + "deleteGroup?idGroup=" + idGroup.toString(), {headers: this.AuthHeader()})
   }
   // ===============================================================================
-
 
   public registerEntrance(id: number){
     return this.httpClient.get(this.url + "registerEntrance?idParishioner=" + id.toString(), {headers: this.AuthHeader(), responseType:'text'})
