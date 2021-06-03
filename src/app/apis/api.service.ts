@@ -10,7 +10,6 @@ import {AdditionalInfo} from "../models/additional-info";
 import {ParishionerDetail} from "../models/parishioner-detail";
 import { MeetingInput } from '../models/meeting-input';
 import { GroupToMeeting } from '../models/group-to-meeting';
-import { ParishionerToMeeting } from '../models/parishioner-to-meeting';
 import { GroupInput } from '../models/group-input';
 import {UserCredentials} from "../models/user-credentials";
 import { ParishionersToGroup } from '../models/parishioner-to-group';

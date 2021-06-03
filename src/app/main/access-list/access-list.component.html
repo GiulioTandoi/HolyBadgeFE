@@ -23,12 +23,12 @@
 
       <ng-container matColumnDef="entranceDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-header-row"> Entrance date </th>
-        <td mat-cell *matCellDef="let row"  class="start-date"> {{row.entranceTime | date: 'dd-MM-yyyy hh:mm'}} </td>
+        <td mat-cell *matCellDef="let row"  class="start-date"> {{row.entranceTime | date: 'dd-MM-yyyy HH:mm'}} </td>
       </ng-container>
 
       <ng-container matColumnDef="exitDate">
         <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-header-row"> Exit date </th>
-        <td mat-cell *matCellDef="let row" class="end-date"> {{row.exitTime | date: 'dd-MM-yyyy hh:mm'}} </td>
+        <td mat-cell *matCellDef="let row" class="end-date"> {{row.exitTime | date: 'dd-MM-yyyy HH:mm'}} </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
