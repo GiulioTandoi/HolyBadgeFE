@@ -8,6 +8,7 @@ import { zip } from 'rxjs';
 import { ApiService } from 'src/app/apis/api.service';
 import { Parishioner } from 'src/app/models/parishioner';
 import { ParishionerOfGroup } from 'src/app/models/parishioner-of-group';
+import {ParishionersToGroup} from "../../models/parishioner-to-group";
 
 @Component({
   selector: 'app-group-detail',
@@ -65,12 +66,19 @@ export class GroupDetailComponent implements OnInit, AfterViewInit {
     }
   }
 
-  addParishionerToGroup(){
-    let body ={
-      ids:this.selection.selected.map(x=> x.id),
-      groupId:this.id
+  addParishionerToGroup() {
+    let body: ParishionersToGroup = {
+      idParishioners: this.selection.selected.map(x => x.id),
+      idGroup: this.id
     }
-    console.log(body)
+    this.apiService.addParishionerToGroup(body).subscribe(
+        (response) => {
+          this.getGroupDetails(this.id)
+        },
+        (error) => {
+          console.log(error)
+        }
+    )
   }
 
 
@@ -119,6 +127,7 @@ export class GroupDetailComponent implements OnInit, AfterViewInit {
         this.notGroupMembers=response.filter(x => x.member)
         this.dataSource.data = this.groupMembers
         this.dataSourceForNotMembers.data = this.notGroupMembers
+        this.selection.clear()
       },
       (error) => {
         console.log(error)
