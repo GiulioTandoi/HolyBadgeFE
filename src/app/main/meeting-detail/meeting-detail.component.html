@@ -2,6 +2,33 @@
 <h2 class="title">DATI INCONTRO</h2>
 <br>
 <div fxLayout="row" fxLayoutAlign="space-around">
+  <form [formGroup]="updateMeetingForm" (ngSubmit)="onSubmit()">
+
+    <div fxLayout="column" fxLayoutGap="48px">
+      <input type="hidden"  formControlName="id">
+      <p>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Nome" formControlName="meetingName">
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Luogo incontro" formControlName="location">
+        </mat-form-field>
+      </p>
+
+      <p>
+        <mat-form-field>
+          <input type="text" matInput placeholder="Data incontro" formControlName="date">
+        </mat-form-field>
+      </p>
+
+      <button mat-raised-button type="submit">Modifica dati incontro</button>
+    </div>
+
+</div>
+<div fxLayout="row" fxLayoutAlign="space-around">
   <div fxLayout="column" fxLayoutGap="32px">
     <h3 class="title">PARTECIPANTI</h3>
     <div class="container">

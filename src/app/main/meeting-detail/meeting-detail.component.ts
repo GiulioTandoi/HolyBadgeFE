@@ -1,13 +1,13 @@
 import { MatFabMenu } from '@angular-material-extensions/fab-menu';
 import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/apis/api.service';
-import { AddMeetingComponent } from 'src/app/dialogs/add-meeting/add-meeting.component';
 import { ParishionerToMeetingComponent } from 'src/app/dialogs/parishioner-to-meeting/parishioner-to-meeting.component';
 import { Parishioner } from 'src/app/models/parishioner';
 import { ParishionerToMeeting } from 'src/app/models/parishioner-to-meeting';
@@ -29,6 +29,13 @@ export class MeetingDetailComponent implements OnInit {
 
     }
   ];
+
+  updateMeetingForm = new FormGroup({
+    id: new FormControl(''),
+    meetingName: new FormControl(''),
+    location: new FormControl(''),
+    date: new FormControl('')
+  });
 
   @Input() id !: number
   displayedColumns: string[] = ['partecipation', 'name', 'surname', 'memberships'];
@@ -62,7 +69,6 @@ export class MeetingDetailComponent implements OnInit {
         }
     )
   }
-
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;

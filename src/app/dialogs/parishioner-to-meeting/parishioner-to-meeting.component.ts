@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Parishioner } from 'src/app/models/parishioner';
-import {startWith, map} from 'rxjs/operators';
 import { ApiService } from 'src/app/apis/api.service';
 import { MatDialogRef } from '@angular/material/dialog';
 
