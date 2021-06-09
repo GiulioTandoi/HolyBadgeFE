@@ -14,7 +14,8 @@ import { GroupInput } from '../models/group-input';
 import {UserCredentials} from "../models/user-credentials";
 import { ParishionersToGroup } from '../models/parishioner-to-group';
 import { ParishionerOfGroup } from '../models/parishioner-of-group';
-import { ParishionersToMeeting } from '../models/parishioners-toi-meeting';
+import { ParishionerToMeeting } from '../models/parishioner-to-meeting';
+import { Partecipant } from '../models/partecipants';
 
 
 @Injectable({
@@ -75,8 +76,8 @@ export class ApiService {
     return this.httpClient.get<Meeting[]>(this.url + "meetings", {headers: this.AuthHeader()})
   }
 
-  public getMeetingPartecipants() : Observable<Parishioner[]>{
-    return this.httpClient.get<Parishioner[]>(this.url + "meetings", {headers: this.AuthHeader()})
+  public getMeetingPartecipants(idMeeting: number) : Observable<Partecipant[]>{
+    return this.httpClient.get<Partecipant[]>(this.url + "meetingPartecipants?idMeeting=" + idMeeting.toString(), {headers: this.AuthHeader()})
   }
 
   public addMeeting(input : MeetingInput){
@@ -87,8 +88,8 @@ export class ApiService {
     return this.httpClient.post(this.url + "addGroupToMeeting", input, {headers: this.AuthHeader()})
   }
 
-  public addParishionersToMeeting(input : ParishionersToMeeting){
-    return this.httpClient.post(this.url + "addParishionersToMeeting", input, {headers: this.AuthHeader()})
+  public addParishionerToMeeting(input : ParishionerToMeeting){
+    return this.httpClient.post(this.url + "addParishionerToMeeting", input, {headers: this.AuthHeader()})
   }
 
   public modifyMeeting(input : Meeting){
@@ -96,11 +97,11 @@ export class ApiService {
   }
 
   public removeParishionerFromMeeting (idParishioner : number , idMeeting: number){
-    return this.httpClient.delete(this.url + "removeParishionerFromMeeting?idParishioner=" + idParishioner.toString() + "&idMeeting=" + idMeeting, {headers: this.AuthHeader()})
+    return this.httpClient.delete(this.url + "removeParishionerFromMeeting?idMeeting=" + idParishioner.toString() + "&idMeeting=" + idMeeting, {headers: this.AuthHeader()})
   }
 
   public removeGroupFromMeeting (idGroup : number , idMeeting: number){
-    return this.httpClient.delete(this.url + "removeGroupFromMeeting?idParishioner=" + idGroup.toString() + "&idMeeting=" + idMeeting, {headers: this.AuthHeader()})
+    return this.httpClient.delete(this.url + "removeGroupFromMeeting?idMeeting=" + idGroup.toString() + "&idMeeting=" + idMeeting, {headers: this.AuthHeader()})
   }
 
   public deleteMeeting (idMeeting: number){

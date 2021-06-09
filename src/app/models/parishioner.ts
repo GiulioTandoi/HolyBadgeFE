@@ -4,5 +4,8 @@ export interface Parishioner{
   surname: string
   phoneNumber: string
   note: string
-
+  secondPhone: string;
+  dataNascita: Date;
+  allergiePatologie: string;
+  tagliaMaglietta: string;
 }

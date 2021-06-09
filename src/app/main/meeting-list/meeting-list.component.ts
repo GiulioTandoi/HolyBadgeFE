@@ -55,7 +55,7 @@ export class MeetingListComponent implements OnInit,AfterViewInit {
   }
 
   onRowClick(row: Meeting) {
-
+    this.router.navigate(['/main/meeting-detail', row.id]);
   }
 
   private getMeetings() {

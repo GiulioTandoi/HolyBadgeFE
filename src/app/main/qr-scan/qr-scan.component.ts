@@ -53,6 +53,7 @@ export class QrScanComponent implements OnInit, AfterViewInit {
            this.status = QrCodeStatus.API_CALL_SUCCESS
          },
          (error) => {
+           
            this.status = QrCodeStatus.API_CALL_FAILED
          }
      )}else{
@@ -62,7 +63,8 @@ export class QrScanComponent implements OnInit, AfterViewInit {
             this.status = QrCodeStatus.API_CALL_SUCCESS
           },
           (error) => {
-            this.openSnackBar(error, 'chiudi')
+          
+            this.openSnackBar(error.error, 'chiudi')
             this.status = QrCodeStatus.API_CALL_FAILED
           }
       )

@@ -1,0 +1,15 @@
+<form [formGroup]="parishionerToAddForm">
+    <mat-form-field>
+      <mat-label>States Group</mat-label>
+      <input type="text"
+             matInput
+             formControlName="stateGroup"
+             required
+             [matAutocomplete]="autoGroup">
+        <mat-autocomplete #autoGroup="matAutocomplete">
+          <mat-optgroup *ngFor="let group of parishionerToAdd | async">
+            {{group.name}} , {{group.surname}} , {{group.dataNascita}} 
+        </mat-optgroup>
+      </mat-autocomplete>
+    </mat-form-field>
+  </form>

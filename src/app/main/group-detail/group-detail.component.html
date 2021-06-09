@@ -1,73 +1,17 @@
 <h2 class="title">Dati Gruppo</h2>
 <br>
 <div fxLayout="row" fxLayoutAlign="space-around">
-
-  <div fxLayout="column" fxLayoutGap="32px">
-    <h3 class="title">TABELLA NON MEMBRI</h3>
-    <div class="container">
-    <mat-form-field>
-        <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
-    </mat-form-field>
-
-    <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSource" matSort #sort>
-
-        <ng-container matColumnDef="select">
-          <th mat-header-cell *matHeaderCellDef>
-            <mat-checkbox (change)="$event ? masterToggle() : null"
-                          [checked]="selection.hasValue() && isAllSelected()"
-                          [indeterminate]="selection.hasValue() && !isAllSelected()"
-                            >
-            </mat-checkbox>
-          </th>
-          <td mat-cell *matCellDef="let row">
-            <mat-checkbox (click)="$event.stopPropagation()"
-                          (change)="$event ? selection.toggle(row) : null"
-                          [checked]="selection.isSelected(row)"
-                            (change)=" onSelect()"
-                          >
-            </mat-checkbox>
-          </td>
-        </ng-container>
-
-        <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-header-row"> Nome </th>
-            <td mat-cell *matCellDef="let row"> {{row.name}} </td>
-        </ng-container>
-
-        <ng-container matColumnDef="surname">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-header-row"> Cognome </th>
-            <td mat-cell *matCellDef="let row"> {{row.surname}} </td>
-        </ng-container>
-
-
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row); selection.toggle(row)"></tr>
-
-        <!-- Row shown when there is no matching data. -->
-        <tr class="mat-cell-no-hover" *matNoDataRow>
-            <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"</td>
-        </tr>
-        </table>
-
-        <mat-paginator #paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
-    </div>
-
-    </div>
-      <button mat-raised-button [disabled]="notAddable" (click)="addParishionerToGroup()" type="submit">Aggiungi parrocchini al gruppo</button>
-  </div>
   <div fxLayout="column" fxLayoutGap ="32px">
 
-    <h3 class="title">TABELLA MEMBRI</h3>
+    <h3 class="title">PARTECIPANTI</h3>
     <div class="container" >
       <mat-form-field>
         <mat-label>Filter</mat-label>
-        <input matInput (keyup)="applyFilterForNotMembers($event)" placeholder="Ex. Mia" #inputForNotMember>
+        <input matInput (keyup)="applyFilterForNotMembers($event)" placeholder="Ex. Mia" #input>
       </mat-form-field>
 
       <div class="mat-elevation-z8">
-        <table mat-table [dataSource]="dataSourceForNotMembers" matSort #sortForNotMembers>
+        <table mat-table [dataSource]="dataSource" matSort #sort>
 
           <ng-container matColumnDef="nameNM">
             <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-header-row"> Nome </th>
@@ -79,6 +23,10 @@
             <td mat-cell *matCellDef="let row"> {{row.surname}} </td>
           </ng-container>
 
+          <ng-container matColumnDef="groupNM">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-header-row"> Gruppi di appartenenza </th>
+            <td mat-cell *matCellDef="let row"> {{row.groups}} </td>
+          </ng-container>
 
           <tr mat-header-row *matHeaderRowDef="displayedColumnsForNotMembers"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumnsForNotMembers;" ></tr>
@@ -89,7 +37,7 @@
           </tr>
         </table>
 
-        <mat-paginator #paginatorForNotMembers [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
+        <mat-paginator #paginator [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>
       </div>
 
     </div>

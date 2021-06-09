@@ -47,6 +47,10 @@ import { GroupDetailComponent } from './main/group-detail/group-detail.component
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatIconModule} from "@angular/material/icon";
 import { MatNativeDateModule } from '@angular/material/core';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { ParishionerToMeetingComponent } from './dialogs/parishioner-to-meeting/parishioner-to-meeting.component';
+import { MeetingDetailComponent } from './main/meeting-detail/meeting-detail.component';
+
 
 // Note we need a separate function as it's required
 // by the AOT compiler.
@@ -68,7 +72,8 @@ const appRoutes: Routes = [
       { path: 'group-list', component: GroupListComponent },
       { path: 'access-list', component: AccessListComponent },
       { path: 'register', component: RegisterComponent },
-      { path: 'group-detail/:id', component: GroupDetailComponent }
+      { path: 'group-detail/:id', component: GroupDetailComponent },
+      { path: 'meeting-detail/:id', component: MeetingDetailComponent }
     ]
   }
 ];
@@ -91,7 +96,9 @@ const appRoutes: Routes = [
     SelectScanComponent,
     AddMeetingComponent,
     AddGroupComponent,
-    GroupDetailComponent
+    GroupDetailComponent,
+    ParishionerToMeetingComponent,
+    MeetingDetailComponent
   ],
     imports: [
         BrowserModule,
@@ -120,7 +127,8 @@ const appRoutes: Routes = [
         MatDatepickerModule,
         MatCheckboxModule,
         MatIconModule,
-        MatNativeDateModule
+        MatNativeDateModule,
+        MatAutocompleteModule
     ],
   providers: [{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}},
@@ -132,7 +140,8 @@ const appRoutes: Routes = [
   entryComponents: [
     AddParishionerComponent,
     AddMeetingComponent,
-    AddGroupComponent
+    AddGroupComponent,
+    ParishionerToMeetingComponent
   ],
   bootstrap: [AppComponent],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
