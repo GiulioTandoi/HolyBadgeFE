@@ -9,7 +9,7 @@ import {ParishionerInput} from "../models/parishioner-input";
 import {AdditionalInfo} from "../models/additional-info";
 import {ParishionerDetail} from "../models/parishioner-detail";
 import { MeetingInput } from '../models/meeting-input';
-import { GroupToMeeting } from '../models/group-to-meeting';
+import { GroupToMeetingComponent } from '../models/group-to-meeting';
 import { GroupInput } from '../models/group-input';
 import {UserCredentials} from "../models/user-credentials";
 import { ParishionersToGroup } from '../models/parishioner-to-group';
@@ -76,15 +76,23 @@ export class ApiService {
     return this.httpClient.get<Meeting[]>(this.url + "meetings", {headers: this.AuthHeader()})
   }
 
+  public getMeetingDetails(idMeeting: number) : Observable<Meeting>{
+    return this.httpClient.get<Meeting>(this.url + "meetingDetails?idMeeting=" + idMeeting.toString(), {headers: this.AuthHeader()})
+  }
+
   public getMeetingPartecipants(idMeeting: number) : Observable<Partecipant[]>{
     return this.httpClient.get<Partecipant[]>(this.url + "meetingPartecipants?idMeeting=" + idMeeting.toString(), {headers: this.AuthHeader()})
+  }
+
+  public getAllNotPartecipants(idMeeting: number) : Observable<Partecipant[]>{
+    return this.httpClient.get<Partecipant[]>(this.url + "allNotPartecipants?idMeeting=" + idMeeting.toString(), {headers: this.AuthHeader()})
   }
 
   public addMeeting(input : MeetingInput){
     return this.httpClient.post(this.url + "createMeeting", input, {headers: this.AuthHeader()})
   }
 
-  public addGroupToMeeting(input : GroupToMeeting){
+  public addGroupToMeeting(input : GroupToMeetingComponent){
     return this.httpClient.post(this.url + "addGroupToMeeting", input, {headers: this.AuthHeader()})
   }
 

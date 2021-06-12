@@ -2,9 +2,9 @@ import { Parishioner } from "./parishioner";
 
 export interface Partecipant{
     id: number
-    partecipation: boolean
+    partecipation: Date
     parishioner: Parishioner
-    memeberships: string []
+    memberships: string []
   
   }
   

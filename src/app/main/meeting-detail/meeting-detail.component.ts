@@ -8,7 +8,9 @@ import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/apis/api.service';
+import { AddGroupToMeetingComponent } from 'src/app/dialogs/add-group-to-meeting/add-group-to-meeting.component';
 import { ParishionerToMeetingComponent } from 'src/app/dialogs/parishioner-to-meeting/parishioner-to-meeting.component';
+import { Meeting } from 'src/app/models/meeting';
 import { Parishioner } from 'src/app/models/parishioner';
 import { ParishionerToMeeting } from 'src/app/models/parishioner-to-meeting';
 import { Partecipant } from 'src/app/models/partecipants';
@@ -24,7 +26,14 @@ export class MeetingDetailComponent implements OnInit {
     {
       id: 1,
       icon: 'person_add',
-      tooltip: 'aggiungi parrocchiano all\'incontro',
+      tooltip: 'aggiungi un parrocchiano all\'incontro',
+      tooltipPosition: 'left',
+
+    },
+    {
+      id: 2,
+      icon: 'group_work',
+      tooltip: 'aggiungi un gruppo all\'incontro',
       tooltipPosition: 'left',
 
     }
@@ -43,6 +52,7 @@ export class MeetingDetailComponent implements OnInit {
   dataSource !: MatTableDataSource<Partecipant>;
   notAddable: boolean= true
   selection = new SelectionModel<Parishioner>(true, []);
+  meetingData!: Meeting;
 
   @ViewChild('paginator') paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
@@ -55,21 +65,7 @@ export class MeetingDetailComponent implements OnInit {
     this.dataSource = new MatTableDataSource<Partecipant>([]);
   }
 
-  addParishionerToMeeting() {
-    let body: ParishionerToMeeting = {
-      idParishioner: 1,
-      idMeeting: this.id
-    }
-    this.apiService.addParishionerToMeeting(body).subscribe(
-        (response) => {
-          this.getMeetingDetails(this.id)
-        },
-        (error) => {
-          console.log(error)
-        }
-    )
-  }
-
+  
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
@@ -100,9 +96,23 @@ export class MeetingDetailComponent implements OnInit {
     this.apiService.getMeetingPartecipants(id).subscribe(
       (response) => {
         console.log(response)
-        this.meetingPartecipants=response
+        this.meetingPartecipants = response
         this.dataSource.data = this.meetingPartecipants
         this.selection.clear()
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+
+    this.apiService.getMeetingDetails(id).subscribe(
+      (response) => {
+        console.log(response)
+        this.meetingData = response;
+        this.updateMeetingForm.controls.id.setValue(this.meetingData.id)
+        this.updateMeetingForm.controls.meetingName.setValue(this.meetingData.meetingName)
+        this.updateMeetingForm.controls.location.setValue(this.meetingData.location)
+        this.updateMeetingForm.controls.date.setValue(this.meetingData.date)
       },
       (error) => {
         console.log(error)
@@ -113,11 +123,18 @@ export class MeetingDetailComponent implements OnInit {
   openDialog(event : any) {
     switch (event){
       case 1:
-        const dialogRef = this.dialog.open(ParishionerToMeetingComponent, {data:{
-            idParishioner: this.id
-          }});
+        const dialogRef = this.dialog.open(ParishionerToMeetingComponent, {
+          data: {idMeeting: this.id}
+        });
 
         dialogRef.afterClosed().subscribe(result => {
+          this.getMeetingDetails(this.id)
+        });
+        break;
+      case 2:
+        const dialogRef2 = this.dialog.open(AddGroupToMeetingComponent);
+
+        dialogRef2.afterClosed().subscribe(result => {
           this.getMeetingDetails(this.id)
         });
         break;
@@ -132,3 +149,4 @@ export class MeetingDetailComponent implements OnInit {
   }
 
 }
+

@@ -1,15 +1,12 @@
-<form [formGroup]="parishionerToAddForm">
-    <mat-form-field>
-      <mat-label>States Group</mat-label>
-      <input type="text"
-             matInput
-             formControlName="stateGroup"
-             required
-             [matAutocomplete]="autoGroup">
-        <mat-autocomplete #autoGroup="matAutocomplete">
-          <mat-optgroup *ngFor="let group of parishionerToAdd | async">
-            {{group.name}} , {{group.surname}} , {{group.dataNascita}} 
-        </mat-optgroup>
-      </mat-autocomplete>
-    </mat-form-field>
-  </form>
+<form>
+  <mat-form-field class="example-full-width">
+    <mat-label>Parrocchiano</mat-label>
+    <input type="text" matInput [formControl]="parishionerToAddForm" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        <mat-option *ngFor="let partecipant of filteredParishioners | async" [value]="partecipant">
+          {{partecipant.parishioner.name}} {{partecipant.parishioner.surname}}, {{partecipant.parishioner.dataNascita | date: 'dd-MM-yyyy HH:mm'}}
+        </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <button mat-raised-button type="submit">Aggiungi parrocchiano  all'incontro</button>
+</form>

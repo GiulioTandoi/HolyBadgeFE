@@ -6,7 +6,7 @@
     <form [formGroup]="updateParishionerForm" (ngSubmit)="onSubmit()">
 
       <div fxLayout="column" fxLayoutGap="16px">
-        <input type="hidden"  formControlName="id">
+        <input type="hidden" formControlName="id">
         <p>
           <mat-form-field>
             <input type="text" matInput placeholder="Name" formControlName="name">
@@ -32,9 +32,6 @@
         </p>
         <button mat-raised-button type="submit">Modifica dati parrocchiano</button>
       </div>
-
-
-
 
     </form>
     <div fxLayout="column" fxLayoutGap="16px">

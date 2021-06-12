@@ -50,6 +50,7 @@ import { MatNativeDateModule } from '@angular/material/core';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { ParishionerToMeetingComponent } from './dialogs/parishioner-to-meeting/parishioner-to-meeting.component';
 import { MeetingDetailComponent } from './main/meeting-detail/meeting-detail.component';
+import { AddGroupToMeetingComponent } from './dialogs/add-group-to-meeting/add-group-to-meeting.component';
 
 
 // Note we need a separate function as it's required
@@ -98,6 +99,7 @@ const appRoutes: Routes = [
     AddGroupComponent,
     GroupDetailComponent,
     ParishionerToMeetingComponent,
+    AddGroupToMeetingComponent,
     MeetingDetailComponent
   ],
     imports: [
@@ -141,7 +143,8 @@ const appRoutes: Routes = [
     AddParishionerComponent,
     AddMeetingComponent,
     AddGroupComponent,
-    ParishionerToMeetingComponent
+    ParishionerToMeetingComponent,
+    AddGroupToMeetingComponent
   ],
   bootstrap: [AppComponent],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]
