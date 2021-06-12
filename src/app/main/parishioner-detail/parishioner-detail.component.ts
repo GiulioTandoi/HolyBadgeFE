@@ -13,6 +13,10 @@ import {AddAdditionalInfoComponent} from "../../dialogs/add-additional-info/add-
 import {MatDialog} from "@angular/material/dialog";
 import {jsPDF} from 'jspdf';
 import kjua  from 'kjua-svg';
+import {formatDate} from "@angular/common";
+
+
+
 
 @Component({
   selector: 'app-parishioner-detail',
@@ -33,14 +37,15 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
 
     }
   ];
-  columnsPerPage = 3;
-  rowsPerPage = 8;
+  columnsPerPage = 2;
+  rowsPerPage = 4;
   pageWidth = 210;
   pageHeight = 297;
   // Avery 3490
-  cellWidth = 36;
-  cellHeight = 36;
-  borderTopBottom = ((this.pageHeight - (this.rowsPerPage * this.cellHeight)) / 2);
+  cellWidth = 50;
+  cellHeight = 50;
+  borderTopBottom = 0;
+  borderLeftRight = 5;
 
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
@@ -50,7 +55,11 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
     name: new FormControl(''),
     surname: new FormControl(''),
     phoneNumber: new FormControl(''),
-    note: new FormControl('')
+    note: new FormControl(''),
+    secondPhone: new FormControl(''),
+    dataNascita: new FormControl(''),
+    allergiePatologie: new FormControl(''),
+    tagliaMaglietta: new FormControl('')
   });
 
   constructor(private route: ActivatedRoute,
@@ -96,6 +105,10 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
         this.updateParishionerForm.controls.surname.setValue(this.parishionerData.surname)
         this.updateParishionerForm.controls.phoneNumber.setValue(this.parishionerData.phoneNumber)
         this.updateParishionerForm.controls.note.setValue(this.parishionerData.note)
+        this.updateParishionerForm.controls.secondPhone.setValue(this.parishionerData.secondPhone)
+        this.updateParishionerForm.controls.dataNascita.setValue(this.parishionerData.dataNascita)
+        this.updateParishionerForm.controls.allergiePatologie.setValue(this.parishionerData.allergiePatologie)
+        this.updateParishionerForm.controls.tagliaMaglietta.setValue(this.parishionerData.tagliaMaglietta)
       },
       (error) => {
         console.log(error)
@@ -127,16 +140,19 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
 
   }
 
-  generatePDF(document = new jsPDF(), rowPos = 0, colPos= 0) {
+  generatePDF(index = 0, document = new jsPDF(), colPos = 0, rowPos = 0) {
+    document.setFontSize(12)
 
-    const barcodeData = this.getBarcodeData(this.id.toString());
 
+      const barcodeData = this.getBarcodeData(this.parishionerData.id.toString());
 
-    const x = ((this.pageWidth / this.columnsPerPage) / 2) - (this.cellWidth / 2) + (colPos * (this.pageWidth / this.columnsPerPage));
-    const y = this.borderTopBottom + (rowPos * this.cellHeight) + 1;
-    document.addImage(barcodeData, "jpeg", x, y, this.cellWidth - 2, this.cellHeight - 2);
-    document.save(`${this.parishionerData.name}_${this.parishionerData.surname}.pdf`);
+      const x = colPos * 106 + this.borderLeftRight;
+      const y = this.borderTopBottom + rowPos * (this.cellHeight +18) + 10;
+      document.addImage(barcodeData, "jpeg", x, y, this.cellWidth - 2, this.cellHeight - 2);
+      document.text(`${this.parishionerData.name}`,x+ 54, y + 8, {maxWidth : 30});
+      document.text(`${this.parishionerData.surname}`,x+ 54, y+18, {maxWidth : 30});
 
+    document.save(`QR-Codes.pdf`);
   }
 
   getBarcodeData(text: string, size = 900) {

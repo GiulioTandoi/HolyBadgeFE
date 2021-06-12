@@ -3,33 +3,66 @@
 
     <form [formGroup]="addParishionerForm" (ngSubmit)="onSubmit()">
 
-      <div fxLayout="column" fxLayoutGap="32px">
-        <p>
-          <mat-form-field>
-            <input type="text" matInput placeholder="Nome" formControlName="name">
-          </mat-form-field>
-        </p>
+      <div fxLayout="column" fxLayoutGap="16px">
+        <input type="hidden"  formControlName="id">
 
-        <p>
-          <mat-form-field>
-            <input type="text" matInput placeholder="Cognome" formControlName="surname">
-          </mat-form-field>
-        </p>
+        <div fxLayout="row" fxLayoutGap="16px">
+          <p>
+            <mat-form-field>
+              <input type="text" matInput placeholder="Name" formControlName="name">
+            </mat-form-field>
+          </p>
 
-        <p>
-          <mat-form-field>
-            <input type="text" matInput placeholder="Numero di telefono" formControlName="phoneNumber">
-          </mat-form-field>
-        </p>
+          <p>
+            <mat-form-field>
+              <input type="text" matInput placeholder="Surname" formControlName="surname">
+            </mat-form-field>
+          </p>
+        </div>
 
+        <div fxLayout="row" fxLayoutGap="16px">
+          <p>
+            <mat-form-field>
+              <input type="text" matInput placeholder="Phone number" formControlName="phoneNumber">
+            </mat-form-field>
+          </p>
+
+          <p>
+            <mat-form-field>
+              <input type="text" matInput placeholder="Secondo numero" formControlName="secondPhone">
+            </mat-form-field>
+          </p>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="16px">
+          <p>
+            <mat-form-field>
+              <input type="text" matInput placeholder="Allergie/patologie" formControlName="allergiePatologie">
+            </mat-form-field>
+          </p>
+
+          <p>
+            <mat-form-field>
+              <input type="text" matInput placeholder="Taglia maglietta" formControlName="tagliaMaglietta">
+            </mat-form-field>
+          </p>
+        </div>
         <p>
           <mat-form-field>
             <input type="text" matInput placeholder="Note" formControlName="note">
           </mat-form-field>
         </p>
+
+
+
+
+        <mat-form-field>
+          <input type="datetime-local" matInput formControlName="dataNascita" placeholder="Data nascita">
+        </mat-form-field>
+
+
         <button mat-raised-button type="submit">Aggiungi parrocchiano</button>
       </div>
-
 
     </form>
 

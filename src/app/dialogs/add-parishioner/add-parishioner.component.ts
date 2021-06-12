@@ -13,7 +13,11 @@ export class AddParishionerComponent implements OnInit {
     name: new FormControl(''),
     surname: new FormControl(''),
     phoneNumber: new FormControl(''),
-    note: new FormControl('')
+    note: new FormControl(''),
+    secondPhone: new FormControl(''),
+    dataNascita: new FormControl(''),
+    allergiePatologie: new FormControl(''),
+    tagliaMaglietta: new FormControl('')
   });
   constructor(private apiService : ApiService,
               public dialogRef: MatDialogRef<AddParishionerComponent>) {

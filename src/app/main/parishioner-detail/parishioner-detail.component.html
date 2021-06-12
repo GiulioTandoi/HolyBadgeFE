@@ -13,29 +13,66 @@
           </mat-form-field>
         </p>
 
-        <p>
-          <mat-form-field>
-            <input type="text" matInput placeholder="Surname" formControlName="surname">
-          </mat-form-field>
-        </p>
+        <div fxLayout="row" fxLayoutGap="16px">
+          <p>
+            <mat-form-field>
+              <input type="text" matInput placeholder="Name" formControlName="name">
+            </mat-form-field>
+          </p>
 
-        <p>
-          <mat-form-field>
-            <input type="text" matInput placeholder="Phone number" formControlName="phoneNumber">
-          </mat-form-field>
-        </p>
+          <p>
+            <mat-form-field>
+              <input type="text" matInput placeholder="Surname" formControlName="surname">
+            </mat-form-field>
+          </p>
+        </div>
 
+        <div fxLayout="row" fxLayoutGap="16px">
+          <p>
+            <mat-form-field>
+              <input type="text" matInput placeholder="Phone number" formControlName="phoneNumber">
+            </mat-form-field>
+          </p>
+
+          <p>
+            <mat-form-field>
+              <input type="text" matInput placeholder="Secondo numero" formControlName="secondPhone">
+            </mat-form-field>
+          </p>
+        </div>
+
+        <div fxLayout="row" fxLayoutGap="16px">
+          <p>
+            <mat-form-field>
+              <input type="text" matInput placeholder="Allergie/patologie" formControlName="allergiePatologie">
+            </mat-form-field>
+          </p>
+
+          <p>
+            <mat-form-field>
+              <input type="text" matInput placeholder="Taglia maglietta" formControlName="tagliaMaglietta">
+            </mat-form-field>
+          </p>
+        </div>
         <p>
           <mat-form-field>
             <input type="text" matInput placeholder="Note" formControlName="note">
           </mat-form-field>
         </p>
+
+
+
+
+          <mat-form-field>
+            <input type="datetime-local" matInput formControlName="dataNascita" placeholder="Data nascita">
+          </mat-form-field>
+
+
         <button mat-raised-button type="submit">Modifica dati parrocchiano</button>
       </div>
 
     </form>
     <div fxLayout="column" fxLayoutGap="16px">
-      <app-qr-builder [value]="this.id"></app-qr-builder>
       <button mat-raised-button (click)="generatePDF()">Scarica PDF Qr Code</button>
     </div>
   </div>

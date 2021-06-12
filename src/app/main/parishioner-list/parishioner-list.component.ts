@@ -25,7 +25,7 @@ export class ParishionerListComponent implements OnInit, AfterViewInit{
   cellWidth = 50;
   cellHeight = 50;
   borderTopBottom = 0;
-  borderLeftRight = 0;
+  borderLeftRight = 5;
   fabButtonsRandom: MatFabMenu[] = [
     {
       id: 1,
@@ -86,7 +86,7 @@ export class ParishionerListComponent implements OnInit, AfterViewInit{
   openDialog(event : any) {
     switch (event){
       case 1:
-        const dialogRef = this.dialog.open(AddParishionerComponent);
+        const dialogRef = this.dialog.open(AddParishionerComponent, {width: "200"});
 
         dialogRef.afterClosed().subscribe(result => {
           this.getParishioner()
