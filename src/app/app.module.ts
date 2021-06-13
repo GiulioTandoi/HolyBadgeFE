@@ -51,6 +51,8 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { ParishionerToMeetingComponent } from './dialogs/parishioner-to-meeting/parishioner-to-meeting.component';
 import { MeetingDetailComponent } from './main/meeting-detail/meeting-detail.component';
 import { AddGroupToMeetingComponent } from './dialogs/add-group-to-meeting/add-group-to-meeting.component';
+import {MatSelectModule} from "@angular/material/select";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 
 // Note we need a separate function as it's required
@@ -130,7 +132,9 @@ const appRoutes: Routes = [
         MatCheckboxModule,
         MatIconModule,
         MatNativeDateModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        MatSelectModule,
+        MatTooltipModule
     ],
   providers: [{ provide: JWT_OPTIONS, useValue: JWT_OPTIONS },
     {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}},

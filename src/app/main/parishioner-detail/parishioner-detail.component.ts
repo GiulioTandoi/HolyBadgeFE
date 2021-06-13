@@ -14,6 +14,11 @@ import {MatDialog} from "@angular/material/dialog";
 import {jsPDF} from 'jspdf';
 import kjua  from 'kjua-svg';
 import {formatDate} from "@angular/common";
+import {MatSelect, MatSelectChange} from "@angular/material/select";
+import {Membership} from "../../models/membership";
+import {MatOptionSelectionChange} from "@angular/material/core";
+import {ParishionersToGroup} from "../../models/parishioner-to-group";
+import {Meeting} from "../../models/meeting";
 
 
 
@@ -25,8 +30,8 @@ import {formatDate} from "@angular/common";
 })
 export class ParishionerDetailComponent implements OnInit, AfterViewInit {
   @Input() id !: number
-  displayedColumns: string[] = ['infoName', 'infoValue', 'edit', 'delete'];
-  dataSource !: MatTableDataSource<AdditionalInfo>;
+  displayedColumns: string[] = ['meetingName', 'meetingDate', 'meetingLocation', 'partecipation'];
+  dataSource !: MatTableDataSource<Meeting>;
   parishionerData !: Parishioner;
   fabButtonsRandom: MatFabMenu[] = [
     {
@@ -59,14 +64,18 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
     secondPhone: new FormControl(''),
     dataNascita: new FormControl(''),
     allergiePatologie: new FormControl(''),
-    tagliaMaglietta: new FormControl('')
+    tagliaMaglietta: new FormControl(''),
+    memberships: new FormControl(),
+    partecipations: new FormControl(),
   });
+
+  memberships: Membership[] = [];
 
   constructor(private route: ActivatedRoute,
               private apiService: ApiService,
               private dialog: MatDialog)
   {
-    this.dataSource = new MatTableDataSource<AdditionalInfo>();
+    this.dataSource = new MatTableDataSource<Meeting>();
   }
 
   ngAfterViewInit() {
@@ -98,7 +107,7 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
     this.apiService.getParishionerDetails(id).subscribe(
       (response) => {
         console.log(response)
-        this.dataSource.data = response.additionalInfos;
+        this.dataSource.data = response.partecipations;
         this.parishionerData = response.parishionerBaseInfo
         this.updateParishionerForm.controls.id.setValue(this.parishionerData.id)
         this.updateParishionerForm.controls.name.setValue(this.parishionerData.name)
@@ -109,6 +118,9 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
         this.updateParishionerForm.controls.dataNascita.setValue(this.parishionerData.dataNascita)
         this.updateParishionerForm.controls.allergiePatologie.setValue(this.parishionerData.allergiePatologie)
         this.updateParishionerForm.controls.tagliaMaglietta.setValue(this.parishionerData.tagliaMaglietta)
+        this.memberships = response.memberships;
+        this.updateParishionerForm.controls.memberships.setValue(response.memberships.filter(x => x.membership))
+
       },
       (error) => {
         console.log(error)
@@ -185,6 +197,44 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
 
   deleteRow(row: AdditionalInfo) {
     
+  }
+
+
+
+  onSelectionChangeGroups($event: MatOptionSelectionChange) {
+    console.log($event)
+    if($event.isUserInput){
+    if(!$event.source.selected){
+      //il controllo è true quindi chiamo l'api di eliminazione  dal gruppo
+      //alla fine dell'api richiamo parishionerDetails
+      console.log('elimino')
+      this.apiService.removeParishionerFromGroup(this.id, $event.source.value.id).subscribe(
+          (response) =>{
+          },
+          (error)=> {
+
+          }
+      );
+
+    }else{
+      //il controllo è false quindi chiamo l'api di aggiunta ad un gruppo
+      //alla fine dell'api richiamo parishionerDetails
+      let p  = {
+        idParishioner: this.id,
+        idGroup: $event.source.value.id
+      }
+      console.log(p)
+      this.apiService.addParishionerToGroup(p).subscribe(
+          (response) =>{
+
+          },
+          (error)=> {
+
+          }
+      );
+      console.log('aggiungo')
+    }
+  }
   }
 }
 

@@ -54,3 +54,6 @@ mat-cell-no-hover{
     border-color: transparent;
     color: black;
 }
+.red-icon {
+    color: red;
+}

@@ -135,12 +135,16 @@ export class ApiService {
     return this.httpClient.post(this.url + "addParishionersToGroup", input, {headers: this.AuthHeader()})
   }
 
+  public addParishionerToGroup(input: any){
+    return this.httpClient.post(this.url + "addParishionerToGroup", input, {headers: this.AuthHeader(), responseType:'text'})
+  }
+
   public modifyGroup(input : Group){
     return this.httpClient.post(this.url + "modifyGroup", input, {headers: this.AuthHeader()})
   }
 
   public removeParishionerFromGroup (idParishioner : number , idGroup: number){
-    return this.httpClient.delete(this.url + "removeParishionerFromGroup?idParishioner=" + idParishioner.toString() + "&idGroup=" + idGroup, {headers: this.AuthHeader()})
+    return this.httpClient.delete(this.url + "removeParishionerFromGroup?idParishioner=" + idParishioner.toString() + "&idGroup=" + idGroup, {headers: this.AuthHeader(), responseType:'text'})
   }
 
   public deleteGroup (idGroup : number){
