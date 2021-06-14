@@ -1,0 +1,10 @@
+<form [formGroup]="updateParishionerMeetingsForm" (ngSubmit)="onSubmit()">
+    <mat-form-field>
+        <mat-label>Incontri</mat-label>
+        <mat-select formControlName="meeting" multiple>
+            <mat-option *ngFor="let meeting of meetings" [value]="meeting" (onSelectionChange)="onSelectionChangeMeetings($event)">{{meeting.meetingName}}, {{meeting.date | date: 'dd-MM-yyyy HH:mm'}}</mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button type="submit">Modifica dati parrocchiano</button>
+</form>

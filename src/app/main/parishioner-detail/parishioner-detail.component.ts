@@ -13,14 +13,10 @@ import {AddAdditionalInfoComponent} from "../../dialogs/add-additional-info/add-
 import {MatDialog} from "@angular/material/dialog";
 import {jsPDF} from 'jspdf';
 import kjua  from 'kjua-svg';
-import {formatDate} from "@angular/common";
-import {MatSelect, MatSelectChange} from "@angular/material/select";
 import {Membership} from "../../models/membership";
 import {MatOptionSelectionChange} from "@angular/material/core";
-import {ParishionersToGroup} from "../../models/parishioner-to-group";
 import {Meeting} from "../../models/meeting";
-
-
+import { AddMeetingToParishionerComponent } from 'src/app/dialogs/add-meeting-to-parishioner/add-meeting-to-parishioner.component';
 
 
 @Component({
@@ -40,6 +36,12 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
       tooltip: 'aggiungi informazioni del parrocchiano',
       tooltipPosition: 'left',
 
+    },
+    {
+      id: 2,
+      icon: 'people',
+      tooltip: 'associa incontri al parrocchiano',
+      tooltipPosition: 'left',
     }
   ];
   columnsPerPage = 2;
@@ -146,6 +148,15 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
           this.getParishionerDetails(this.id)
         });
         break;
+      case 2:
+        const dialogRef2 = this.dialog.open(AddMeetingToParishionerComponent, {data:{
+          idParishioner: this.id
+        }});
+
+        dialogRef2.afterClosed().subscribe(result => {
+          this.getParishionerDetails(this.id)
+        });
+        break;
       default:
         break;
     }
@@ -198,7 +209,6 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
   deleteRow(row: AdditionalInfo) {
     
   }
-
 
 
   onSelectionChangeGroups($event: MatOptionSelectionChange) {

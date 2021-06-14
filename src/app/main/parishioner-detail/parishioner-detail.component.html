@@ -2,7 +2,8 @@
 <div fxLayout="row" fxLayoutAlign="space-around">
   <div fxLayout="column" fxLayoutGap="32px">
 
-
+    <br/>
+    <br/>
     <form [formGroup]="updateParishionerForm" (ngSubmit)="onSubmit()">
 
       <div fxLayout="column" fxLayoutGap="16px">
@@ -55,9 +56,6 @@
           </mat-form-field>
         </p>
 
-
-
-
           <mat-form-field>
             <input type="datetime-local" matInput formControlName="dataNascita" placeholder="Data nascita">
           </mat-form-field>
@@ -78,10 +76,9 @@
       <button mat-raised-button (click)="generatePDF()">Scarica PDF Qr Code</button>
     </div>
   </div>
-  <div fxLayout="column">
-
-
+  <div fxLayout="column"> 
     <div class="container">
+      <h3>Incontri del parrocchiano</h3>
       <mat-form-field>
         <mat-label>Filter</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="Ex. Mia" #input>
@@ -114,9 +111,6 @@
               <mat-icon *ngIf="row.partecipation == null"  class="red-icon">close</mat-icon>
             </td>
           </ng-container>
-
-
-
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row)"></tr>
