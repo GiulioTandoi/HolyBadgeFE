@@ -17,7 +17,7 @@ export class AddMeetingToParishionerComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   ngOnInit(): void {
-    this.getAllMeetings();
+    this.getPossibleMeetings(this.data.idParishioner);
   }
 
   meetings: Meeting[] = [];
@@ -27,8 +27,8 @@ export class AddMeetingToParishionerComponent implements OnInit {
     meetings: new FormControl('')
   })
 
-  private getAllMeetings(){
-    this.apiService.getMeetings().subscribe(
+  private getPossibleMeetings(idParishioner: number){
+    this.apiService.getParishionerPossibleMeetings(idParishioner).subscribe(
       (response) => {
         console.log(response)
         this.meetings = response
@@ -45,7 +45,7 @@ export class AddMeetingToParishionerComponent implements OnInit {
     if(!$event.source.selected){
       //il controllo è true quindi chiamo l'api di eliminazione  dal gruppo
       //alla fine dell'api richiamo parishionerDetails
-      console.log('elimino')
+      console.log('elimino ' + $event.source.value.id)
       this.apiService.removeParishionerFromMeeting(this.data.idParishioner, $event.source.value.id).subscribe(
           (response) =>{
           },
@@ -70,7 +70,7 @@ export class AddMeetingToParishionerComponent implements OnInit {
 
           }
       );
-      console.log('aggiungo')
+      console.log('aggiungo ' + $event.source.value.id)
     }
   }
   }

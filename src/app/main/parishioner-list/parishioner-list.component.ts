@@ -35,8 +35,9 @@ export class ParishionerListComponent implements OnInit, AfterViewInit{
 
     }
   ];
-  displayedColumns: string[] = ['name', 'surname', 'phoneNumber', 'note'];
+  displayedColumns: string[] = ['name', 'surname', 'phoneNumber', 'note','delete'];
   dataSource !: MatTableDataSource<Parishioner>;
+  deleteRowCalled: boolean = false;
 
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
@@ -63,19 +64,37 @@ export class ParishionerListComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit(): void {
-    this.getParishioner()
+    this.getParishioners()
   }
 
   onRowClick(row : Parishioner) {
     console.log(row)
-    this.router.navigate(['/main/parishioner-detail', row.id]);
+    if(!this.deleteRowCalled){
+      this.router.navigate(['/main/parishioner-detail', row.id]);
+    }else{
+      this.deleteRowCalled = false;
+    }
+    
   }
 
-  private getParishioner(){
+  private getParishioners(){
     this.apiService.getParishioners().subscribe(
       (response) => {
         console.log(response);
         this.dataSource.data = response;
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
+  deleteRow(row: Parishioner) {
+    this.deleteRowCalled = true;
+    this.apiService.removeParishioner(row.id).subscribe(
+      (response) => {
+        console.log(response);
+        this.getParishioners();
       },
       (error) => {
         console.log(error)
@@ -89,7 +108,7 @@ export class ParishionerListComponent implements OnInit, AfterViewInit{
         const dialogRef = this.dialog.open(AddParishionerComponent, {width: "200"});
 
         dialogRef.afterClosed().subscribe(result => {
-          this.getParishioner()
+          this.getParishioners()
         });
         break;
       default:

@@ -17,6 +17,7 @@ import {Membership} from "../../models/membership";
 import {MatOptionSelectionChange} from "@angular/material/core";
 import {Meeting} from "../../models/meeting";
 import { AddMeetingToParishionerComponent } from 'src/app/dialogs/add-meeting-to-parishioner/add-meeting-to-parishioner.component';
+import { formatDate } from '@angular/common';
 
 
 @Component({
@@ -32,13 +33,6 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
   fabButtonsRandom: MatFabMenu[] = [
     {
       id: 1,
-      icon: 'playlist_add',
-      tooltip: 'aggiungi informazioni del parrocchiano',
-      tooltipPosition: 'left',
-
-    },
-    {
-      id: 2,
       icon: 'people',
       tooltip: 'associa incontri al parrocchiano',
       tooltipPosition: 'left',
@@ -104,7 +98,6 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
 
   }
 
-
   private getParishionerDetails(id: number) {
     this.apiService.getParishionerDetails(id).subscribe(
       (response) => {
@@ -117,7 +110,7 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
         this.updateParishionerForm.controls.phoneNumber.setValue(this.parishionerData.phoneNumber)
         this.updateParishionerForm.controls.note.setValue(this.parishionerData.note)
         this.updateParishionerForm.controls.secondPhone.setValue(this.parishionerData.secondPhone)
-        this.updateParishionerForm.controls.dataNascita.setValue(this.parishionerData.dataNascita)
+        this.updateParishionerForm.controls.dataNascita.setValue(new Date(this.parishionerData.dataNascita).toISOString().substring(0,10))
         this.updateParishionerForm.controls.allergiePatologie.setValue(this.parishionerData.allergiePatologie)
         this.updateParishionerForm.controls.tagliaMaglietta.setValue(this.parishionerData.tagliaMaglietta)
         this.memberships = response.memberships;
@@ -131,6 +124,7 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
+    this.updateParishionerForm.controls.dataNascita.setValue(formatDate(this.updateParishionerForm.controls.dataNascita.value, 'yyyy-MM-dd', 'EN-en'));
     this.apiService.modifyParishioner(this.updateParishionerForm.value).subscribe(
       response => {this.getParishionerDetails(this.id)},
       error => {console.error(error)}
@@ -140,15 +134,6 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
   openDialog(event : any) {
     switch (event){
       case 1:
-        const dialogRef = this.dialog.open(AddAdditionalInfoComponent, {data:{
-            idParishioner: this.id
-          }});
-
-        dialogRef.afterClosed().subscribe(result => {
-          this.getParishionerDetails(this.id)
-        });
-        break;
-      case 2:
         const dialogRef2 = this.dialog.open(AddMeetingToParishionerComponent, {data:{
           idParishioner: this.id
         }});
@@ -209,7 +194,6 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
   deleteRow(row: AdditionalInfo) {
     
   }
-
 
   onSelectionChangeGroups($event: MatOptionSelectionChange) {
     console.log($event)

@@ -6,6 +6,7 @@ import { ApiService } from 'src/app/apis/api.service';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import {startWith, map} from 'rxjs/operators';
 import { Partecipant } from 'src/app/models/partecipants';
+import { formatDate } from '@angular/common';
 
 @Component({
   selector: 'app-parishioner-to-meeting',
@@ -15,7 +16,10 @@ import { Partecipant } from 'src/app/models/partecipants';
 
 export class ParishionerToMeetingComponent implements OnInit {
 
-  parishionerToAddForm = new FormControl();
+  partecipantForm= new FormGroup({
+    partecipantControl: new FormControl('')
+  }) 
+  
   
   notPartecipants !: Partecipant[];
   filteredParishioners!: Observable<Partecipant[]>;
@@ -26,23 +30,10 @@ export class ParishionerToMeetingComponent implements OnInit {
 
   ngOnInit() {
     this.getAllNotPartecipants(this.data.idMeeting);
-    console.log(this.notPartecipants);
-  }
-
-  ngDoCheck() {
+    console.log("NON PARTECIPANTI "+ this.notPartecipants);
     
-    this.filteredParishioners = this.parishionerToAddForm.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.notPartecipants.slice())
-      );
   }
-
-  displayFn(parishioner: Parishioner): string {
-    return parishioner && parishioner.name ? parishioner.name : '';
-  }
-
+  
   private _filter(name: string): Partecipant[] {
     const filterValue = name.toLowerCase();
 
@@ -54,7 +45,7 @@ export class ParishionerToMeetingComponent implements OnInit {
   }
 
   addParishionerToMeeting(idParishioner: number){
-    console.log("CONTENUTO DEL FORM " + this.parishionerToAddForm.value);
+    console.log("CONTENUTO DEL FORM " + this.partecipantForm.controls.partecipantControl.value);
     let idMeeting: number = Number(this.data.idMeeting);
     this.apiService.addParishionerToMeeting({idParishioner, idMeeting}).subscribe(
       (response) => {
@@ -66,11 +57,21 @@ export class ParishionerToMeetingComponent implements OnInit {
     )
   }
 
+  writeResult(partecipant: Partecipant){
+    return partecipant.parishioner.name + " " + partecipant.parishioner.surname + ", " + formatDate(partecipant.parishioner.dataNascita, 'dd-MM-yyyy', "EN-en")
+  }
+
   getAllNotPartecipants(idMeeting: number){
     this.apiService.getAllNotPartecipants(idMeeting).subscribe(
       (response) => {
         console.log(response);
         this.notPartecipants = response;
+        this.filteredParishioners = this.partecipantForm.controls.partecipantControl.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => typeof value === 'string' ? value : value.name),
+            map(name => name ? this._filter(name) : this.notPartecipants.slice())
+          );
       },
       (error) => {
         this.dialogRef.close(error);

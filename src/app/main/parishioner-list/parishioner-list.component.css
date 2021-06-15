@@ -49,3 +49,13 @@ button {
   transition: transform 80ms ease-in;
 }
 
+.mat-icon {
+  font-size: 20px;
+}
+
+.transparent{
+  background-color: transparent;
+  border-color: transparent;
+  color: black;
+}
+

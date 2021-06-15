@@ -16,8 +16,9 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./group-list.component.css']
 })
 export class GroupListComponent implements OnInit,AfterViewInit {
-  displayedColumns: string[] = ['id', 'name'];
+  displayedColumns: string[] = ['name', 'delete'];
   dataSource !: MatTableDataSource<Group>;
+  deleteRowCalled: boolean = false;
 
   // @ts-ignore
   @ViewChild(MatPaginator) paginator : MatPaginator;
@@ -58,7 +59,12 @@ export class GroupListComponent implements OnInit,AfterViewInit {
   }
 
   onRowClick(row: Group) {
-    this.router.navigate(['/main/group-detail', row.id]);
+    console.log(row)
+    if(!this.deleteRowCalled){
+      this.router.navigate(['/main/group-detail', row.id]);
+    }else{
+      this.deleteRowCalled = false;
+    }
   }
 
   private getGroups() {
@@ -73,6 +79,18 @@ export class GroupListComponent implements OnInit,AfterViewInit {
     )
   }
 
+  deleteRow(row: Group) {
+    this.deleteRowCalled = true;
+    this.apiService.deleteGroup(row.id).subscribe(
+      (response) => {
+        console.log(response);
+        this.getGroups();
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
 
   openDialog(event : any) {
     switch (event){

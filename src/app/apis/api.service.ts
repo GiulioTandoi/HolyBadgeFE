@@ -88,6 +88,10 @@ export class ApiService {
     return this.httpClient.get<Partecipant[]>(this.url + "allNotPartecipants?idMeeting=" + idMeeting.toString(), {headers: this.AuthHeader()})
   }
 
+  public getParishionerPossibleMeetings(idParishioner: number): Observable<Meeting[]>{
+    return this.httpClient.get<Meeting[]>(this.url + "parishionerPossibleMeetings?idParishioner=" + idParishioner.toString(), {headers: this.AuthHeader()})
+  }
+
   public addMeeting(input : MeetingInput){
     return this.httpClient.post(this.url + "createMeeting", input, {headers: this.AuthHeader()})
   }

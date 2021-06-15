@@ -14,9 +14,11 @@ import { MatFabMenu } from '@angular-material-extensions/fab-menu';
   templateUrl: './meeting-list.component.html',
   styleUrls: ['./meeting-list.component.css']
 })
+
 export class MeetingListComponent implements OnInit,AfterViewInit {
-  displayedColumns: string[] = ['meetingName', 'location', 'date'];
+  displayedColumns: string[] = ['meetingName', 'location', 'date', 'delete'];
   dataSource !: MatTableDataSource<Meeting>;
+  deleteRowCalled: boolean= false;
 
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
@@ -54,8 +56,15 @@ export class MeetingListComponent implements OnInit,AfterViewInit {
     this.getMeetings()
   }
 
+  
   onRowClick(row: Meeting) {
-    this.router.navigate(['/main/meeting-detail', row.id]);
+    console.log(row)
+    if(!this.deleteRowCalled){
+      this.router.navigate(['/main/meeting-detail', row.id]);
+    }else{
+      this.deleteRowCalled = false;
+    }
+
   }
 
   private getMeetings() {
@@ -64,6 +73,19 @@ export class MeetingListComponent implements OnInit,AfterViewInit {
         console.log(response)
         this.dataSource.data = response;
 
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
+
+  deleteRow(row: Meeting) {
+    this.deleteRowCalled = true;
+    this.apiService.deleteMeeting(row.id).subscribe(
+      (response) => {
+        console.log(response);
+        this.getMeetings();
       },
       (error) => {
         console.log(error)
