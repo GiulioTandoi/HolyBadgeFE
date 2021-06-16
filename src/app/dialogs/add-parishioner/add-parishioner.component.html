@@ -4,8 +4,6 @@
     <form [formGroup]="addParishionerForm" (ngSubmit)="onSubmit()">
 
       <div fxLayout="column" fxLayoutGap="16px">
-        <input type="hidden"  formControlName="id">
-
         <div fxLayout="row" fxLayoutGap="16px">
           <p>
             <mat-form-field>
@@ -52,14 +50,14 @@
 
           <mat-form-field>
             <mat-label>Incontri</mat-label>
-            <mat-select formControlName="meeting" multiple>
+            <mat-select formControlName="partecipations" multiple>
                 <mat-option *ngFor="let meeting of meetings" [value]="meeting" (onSelectionChange)="onSelectionChangeMeetings($event)">{{meeting.meetingName}}, {{meeting.date | date: 'dd-MM-yyyy HH:mm'}}</mat-option>
             </mat-select>
           </mat-form-field>
 
           <mat-form-field>
             <mat-label>Gruppi</mat-label>
-            <mat-select formControlName="group" multiple>
+            <mat-select formControlName="memberships" multiple>
               <mat-option *ngFor="let group of groups" [value]="group" (onSelectionChange)="onSelectionChangeGroups($event)">{{group.name}}</mat-option>
             </mat-select>
           </mat-form-field>

@@ -1,17 +1,12 @@
-<form [formGroup]="groupToAddForm">
-    <mat-form-field>
-      <mat-label>Gruppo</mat-label>
-      <input type="text"
-             matInput
-             formControlName="stateGroup"
-             required
-             [matAutocomplete]="autoGroup">
-        <mat-autocomplete #autoGroup="matAutocomplete">
-          <mat-optgroup *ngFor="let group of groupToAdd | async">
-            {{group.name}}
-        </mat-optgroup>
-      </mat-autocomplete>
-    </mat-form-field>
-
-    <button mat-raised-button type="submit">Aggiungi gruppo all'incontro</button>
-  </form>
+<form [formGroup]="membershipForm">
+  <mat-form-field class="example-full-width">
+    <mat-label>Gruppo*</mat-label>
+    <input type="text" matInput formControlName="groupName" [matAutocomplete]="auto">
+    <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let group of filteredGroups | async" [value]="writeResult(group)">
+          {{group.name}}
+        </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+  <button mat-raised-button type="submit" (click)="onSubmit()">Aggiungi un gruppo all'incontro</button>
+</form>

@@ -1,0 +1,12 @@
+<form [formGroup]="membersForm">
+    <mat-form-field class="example-full-width">
+      <mat-label>Parrocchiano*</mat-label>
+      <input type="text" matInput formControlName="memberControl" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+          <mat-option *ngFor="let member of filteredParishioners | async" [value]="writeResult(member)">
+            {{member.name}} {{member.surname}}, {{member.dataNascita | date: 'dd-MM-yyyy HH:mm'}}
+          </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+    <button mat-raised-button type="submit" (click)="onSubmit()">Aggiungi parrocchiano al gruppo</button>
+  </form>

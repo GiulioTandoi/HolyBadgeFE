@@ -12,7 +12,6 @@ import { AddGroupToMeetingComponent } from 'src/app/dialogs/add-group-to-meeting
 import { ParishionerToMeetingComponent } from 'src/app/dialogs/parishioner-to-meeting/parishioner-to-meeting.component';
 import { Meeting } from 'src/app/models/meeting';
 import { Parishioner } from 'src/app/models/parishioner';
-import { ParishionerToMeeting } from 'src/app/models/parishioner-to-meeting';
 import { Partecipant } from 'src/app/models/partecipants';
 
 @Component({
@@ -47,12 +46,13 @@ export class MeetingDetailComponent implements OnInit {
   });
 
   @Input() id !: number
-  displayedColumns: string[] = ['partecipation', 'name', 'surname', 'memberships'];
+  displayedColumns: string[] = ['partecipation', 'name', 'surname', 'memberships', 'delete'];
   meetingPartecipants !: Partecipant[];
   dataSource !: MatTableDataSource<Partecipant>;
   notAddable: boolean= true
   selection = new SelectionModel<Parishioner>(true, []);
   meetingData!: Meeting;
+  deleteRowCalled: boolean = false;
 
   @ViewChild('paginator') paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
@@ -87,9 +87,26 @@ export class MeetingDetailComponent implements OnInit {
     this.getMeetingDetails(this.id);
   }
 
-  onRowClick(row : Parishioner) {
+  onRowClick(row : any) {
     console.log(row)
-    this.router.navigate(['/main/parishioner-detail', row.id]);
+    if(!this.deleteRowCalled){
+      this.router.navigate(['/main/parishioner-detail', row.partecipant.parishioner.id]);
+    }else{
+      this.deleteRowCalled = false;
+    }
+  }
+
+  deleteRow(row: any) {
+    this.deleteRowCalled = true;
+    this.apiService.removeParishionerFromMeeting(row.partecipant.parishioner.id, this.id).subscribe(
+      (response) => {
+        console.log(response);
+        this.getMeetingDetails(this.id);
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
   }
 
   private getMeetingDetails(id: number) {
@@ -97,6 +114,11 @@ export class MeetingDetailComponent implements OnInit {
       (response) => {
         console.log(response)
         this.meetingPartecipants = response
+        this.meetingPartecipants.forEach(obj => {
+          obj.memberships.forEach(childObj=> {
+           childObj 
+          });
+        });
         this.dataSource.data = this.meetingPartecipants
         this.selection.clear()
       },
@@ -132,7 +154,9 @@ export class MeetingDetailComponent implements OnInit {
         });
         break;
       case 2:
-        const dialogRef2 = this.dialog.open(AddGroupToMeetingComponent);
+        const dialogRef2 = this.dialog.open(AddGroupToMeetingComponent, {
+          data: {idMeeting: this.id}
+        });
 
         dialogRef2.afterClosed().subscribe(result => {
           this.getMeetingDetails(this.id)

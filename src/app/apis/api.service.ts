@@ -88,6 +88,10 @@ export class ApiService {
     return this.httpClient.get<Partecipant[]>(this.url + "allNotPartecipants?idMeeting=" + idMeeting.toString(), {headers: this.AuthHeader()})
   }
 
+  public getAllNotAdded(idMeeting: number) : Observable<Group[]>{
+    return this.httpClient.get<Group[]>(this.url + "allGroupNotAdded?idMeeting=" + idMeeting.toString(), {headers: this.AuthHeader()})
+  }
+
   public getParishionerPossibleMeetings(idParishioner: number): Observable<Meeting[]>{
     return this.httpClient.get<Meeting[]>(this.url + "parishionerPossibleMeetings?idParishioner=" + idParishioner.toString(), {headers: this.AuthHeader()})
   }
@@ -109,7 +113,7 @@ export class ApiService {
   }
 
   public removeParishionerFromMeeting (idParishioner : number , idMeeting: number){
-    return this.httpClient.delete(this.url + "removeParishionerFromMeeting?idMeeting=" + idParishioner.toString() + "&idMeeting=" + idMeeting, {headers: this.AuthHeader()})
+    return this.httpClient.delete(this.url + "removeParishionerFromMeeting?idParishioner=" + idParishioner.toString() + "&idMeeting=" + idMeeting.toString(), {headers: this.AuthHeader()})
   }
 
   public removeGroupFromMeeting (idGroup : number , idMeeting: number){
@@ -129,6 +133,10 @@ export class ApiService {
 
   public getGroupMembers(idGroup: number) : Observable<ParishionerOfGroup[]>{
     return this.httpClient.get<ParishionerOfGroup[]>(this.url + "groupsMembers?idGroup=" + idGroup.toString(), {headers: this.AuthHeader()})
+  }
+
+  public getGroupNotMembers(idGroup: number) : Observable<ParishionerOfGroup[]>{
+    return this.httpClient.get<ParishionerOfGroup[]>(this.url + "groupsNotMembers?idGroup=" + idGroup.toString(), {headers: this.AuthHeader()})
   }
 
   public createGroup(input : GroupInput){

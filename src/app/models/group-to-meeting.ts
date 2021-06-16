@@ -1,5 +1,5 @@
 export interface GroupToMeetingComponent{
-    groupName: string
-    idMeeting: number,
+    groupName: string,
+    idMeeting: number
   }
   

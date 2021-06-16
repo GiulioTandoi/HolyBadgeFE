@@ -3,7 +3,8 @@ export interface ParishionerOfGroup{
     name: string
     surname: string
     phoneNumber: string
-    note: string,
+    note: string
+    dataNascita: Date
     member: boolean
   
   }

@@ -1,4 +1,4 @@
 export interface ParishionersToGroup {
-    idParishioners : number[],
+    idParishioner : number,
     idGroup : number
 }

@@ -1,11 +1,13 @@
+import { MatFabMenu } from '@angular-material-extensions/fab-menu';
 import { SelectionModel } from '@angular/cdk/collections';
 import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
-import { zip } from 'rxjs';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/apis/api.service';
+import { AddParishionerToGroupComponent } from 'src/app/dialogs/add-parishioner-to-group/add-parishioner-to-group.component';
 import { Parishioner } from 'src/app/models/parishioner';
 import { ParishionerOfGroup } from 'src/app/models/parishioner-of-group';
 import {ParishionersToGroup} from "../../models/parishioner-to-group";
@@ -18,27 +20,36 @@ import {ParishionersToGroup} from "../../models/parishioner-to-group";
 export class GroupDetailComponent implements OnInit, AfterViewInit {
 
   @Input() id !: number
-  displayedColumns: string[] = ['select', 'name', 'surname'];
+  displayedColumns: string[] = ['name', 'surname', 'delete'];
   groupMembers !: ParishionerOfGroup[];
   notGroupMembers !: ParishionerOfGroup[];
   dataSource !: MatTableDataSource<ParishionerOfGroup>;
   selection = new SelectionModel<ParishionerOfGroup>(true, []);
-  notAddable: boolean= true
+  notAddable: boolean = true
+  deleteRowCalled: boolean = false;
 
-  displayedColumnsForNotMembers: string[] = ['nameNM', 'surnameNM'];
+  fabButtonsRandom: MatFabMenu[] = [
+    {
+      id: 1,
+      icon: 'person_add',
+      tooltip: 'aggiungi un parrocchiano al gruppo',
+      tooltipPosition: 'left',
+
+    }
+  ]
+
+  displayedColumnsForNotMembers: string[] = ['nameNM', 'surnameNM', 'delete'];
   dataSourceForNotMembers !: MatTableDataSource<ParishionerOfGroup>;
 
   @ViewChild('paginator') paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
 
-  @ViewChild('paginatorForNotMembers') paginatorForNotMembers !: MatPaginator;
-  @ViewChild(MatSort) sortForNotMembers !: MatSort;
-
   constructor(private route: ActivatedRoute,
-              private apiService: ApiService)
+              private router: Router,
+              private apiService: ApiService,
+              private dialog: MatDialog)
   {
     this.dataSource = new MatTableDataSource<ParishionerOfGroup>([]);
-    this.dataSourceForNotMembers = new MatTableDataSource<ParishionerOfGroup>([]);
   }
 
   isAllSelected() {
@@ -66,25 +77,8 @@ export class GroupDetailComponent implements OnInit, AfterViewInit {
     }
   }
 
-  addParishionerToGroup() {
-    let body: ParishionersToGroup = {
-      idParishioners: this.selection.selected.map(x => x.id),
-      idGroup: this.id
-    }
-    this.apiService.addParishionersToGroup(body).subscribe(
-        (response) => {
-          this.getGroupDetails(this.id)
-        },
-        (error) => {
-          console.log(error)
-        }
-    )
-  }
-
-
   ngAfterViewInit() {
-    this.dataSourceForNotMembers.paginator = this.paginatorForNotMembers;
-    this.dataSourceForNotMembers.sort = this.sortForNotMembers;
+    
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
 
@@ -98,15 +92,6 @@ export class GroupDetailComponent implements OnInit, AfterViewInit {
       this.dataSource.paginator.firstPage();
     }
   }
-  
-  applyFilterForNotMembers(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSourceForNotMembers.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSourceForNotMembers.paginator) {
-      this.dataSourceForNotMembers.paginator.firstPage();
-    }
-  }
 
   ngOnInit(): void {
     console.log(this.route.snapshot.paramMap.get('id'));
@@ -115,19 +100,32 @@ export class GroupDetailComponent implements OnInit, AfterViewInit {
   }
 
   onRowClick(row: Parishioner) {
-
+    if(!this.deleteRowCalled){
+      this.router.navigate(['/main/parishioner-detail', row.id]);
+    }else{
+      this.deleteRowCalled = false;
+    }
   }
 
+  deleteRow(row: any) {
+    this.deleteRowCalled = true;
+    console.log(row)
+    this.apiService.removeParishionerFromGroup(row.id, this.id).subscribe(
+      (response) => {
+        console.log(response);
+        this.getGroupDetails(this.id);
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
+  }
 
   private getGroupDetails(id: number) {
     this.apiService.getGroupMembers(id).subscribe(
       (response) => {
         console.log(response)
-        this.groupMembers=response.filter(x => !x.member)
-        this.notGroupMembers=response.filter(x => x.member)
-        this.dataSource.data = this.groupMembers
-        this.dataSourceForNotMembers.data = this.notGroupMembers
-        this.selection.clear()
+        this.dataSource.data = response
       },
       (error) => {
         console.log(error)
@@ -137,6 +135,21 @@ export class GroupDetailComponent implements OnInit, AfterViewInit {
 
   onSubmit() {
     
+  }
+
+  openDialog(event : any) {
+    switch (event){
+      case 1:
+        const dialogRef = this.dialog.open(AddParishionerToGroupComponent, {
+          data: {idGroup: this.id}
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+          this.getGroupDetails(this.id)
+        });
+        break;
+    
+    }
   }
 
 }

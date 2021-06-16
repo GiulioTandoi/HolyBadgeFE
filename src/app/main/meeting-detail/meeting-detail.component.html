@@ -63,6 +63,15 @@
             <td mat-cell *matCellDef="let row"><p *ngFor="let membership of row.memberships">{{membership.name}}</p></td>
           </ng-container>
 
+          <ng-container matColumnDef="delete">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="mat-header-row"> Elimina </th>
+            <td mat-cell *matCellDef="let row">
+              <button mat-icon-button class="transparent mat-elevation-z0" aria-label="Elimina" (click)="deleteRow(row)" >
+                <mat-icon>delete</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="onRowClick(row);"></tr>
 

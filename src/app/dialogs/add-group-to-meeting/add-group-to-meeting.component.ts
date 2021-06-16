@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { MatDialogRef } from '@angular/material/dialog';
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { ApiService } from 'src/app/apis/api.service';
 import { Group } from 'src/app/models/group';
@@ -14,47 +14,60 @@ import {startWith, map} from 'rxjs/operators';
 })
 export class AddGroupToMeetingComponent implements OnInit {
 
-  groupToAddForm: FormGroup = this._formBuilder.group({
-    parishGroups: '',
-  });
+  membershipForm= new FormGroup({
+    groupName: new FormControl(''),
+  }) 
   
-  parishGroups !: Group[];
-  groupToAdd !: Observable<Group[]>;
+  notAdded !: Group[];
+  filteredGroups !: Observable<Group[]>;
+  idGroupSelected!: number;
 
-  constructor(private _formBuilder: FormBuilder,
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private apiService : ApiService,
               public dialogRef: MatDialogRef<GroupToMeetingComponent>) {}
 
   ngOnInit() {
-    this.groupToAdd = this.groupToAddForm.get('parishGroups')!.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filterGroup(value))
-      );
+    this.getAllNotAdded(this.data.idMeeting);
+    
   }
 
-  _filter = (opt: string[], value: string): string[] => {
-    const filterValue = value.toLowerCase();
+  _filter = (name: string): Group[] => {
+    const filterValue = name.toLowerCase();
   
-    return opt.filter(item => item.toLowerCase().indexOf(filterValue) === 0);
+    return this.notAdded.filter(item => item.name.toLowerCase().indexOf(filterValue) === 0);
   };
+  
+  writeResult(group: Group){
+    this.idGroupSelected = group.id 
+    return group.name;
+  }
 
-  private _filterGroup(value: string): Group[] {
-    if (value) {
-      return this.parishGroups
-        .map(parishgroup => ({id: parishgroup.id, name: parishgroup.name}))
-        .filter(parishgroup => parishgroup.name.length > 0);
-    }
-
-    return this.parishGroups;
+  private getAllNotAdded(idMeeting: number){
+    this.apiService.getAllNotAdded(idMeeting).subscribe(
+      (response) => {
+        console.log(response);
+        this.notAdded = response;
+        this.filteredGroups = this.membershipForm.controls.groupName.valueChanges
+          .pipe(
+            startWith(''),
+            map(value => typeof value === 'string' ? value : value.name),
+            map(name => name ? this._filter(name) : this.notAdded.slice())
+          );
+      },
+      (error) => {
+        this.dialogRef.close(error);
+      }
+    )
   }
 
     onSubmit(){
-      this.addGroupToMeeting()
+      this.addGroupToMeeting(this.membershipForm.value)
     }
 
-    addGroupToMeeting(){
-      this.apiService.addGroupToMeeting(this.groupToAddForm.value).subscribe(
+    addGroupToMeeting(group: GroupToMeetingComponent){
+      group.idMeeting = this.data.idMeeting;
+      
+      this.apiService.addGroupToMeeting(group).subscribe(
         (response) => {
           this.dialogRef.close(response)
         },

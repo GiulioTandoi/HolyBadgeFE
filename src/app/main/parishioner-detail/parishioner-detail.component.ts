@@ -27,7 +27,7 @@ import { formatDate } from '@angular/common';
 })
 export class ParishionerDetailComponent implements OnInit, AfterViewInit {
   @Input() id !: number
-  displayedColumns: string[] = ['meetingName', 'meetingDate', 'meetingLocation', 'partecipation'];
+  displayedColumns: string[] = ['meetingName', 'meetingDate', 'meetingLocation', 'partecipation', 'delete'];
   dataSource !: MatTableDataSource<Meeting>;
   parishionerData !: Parishioner;
   fabButtonsRandom: MatFabMenu[] = [
@@ -47,6 +47,7 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
   cellHeight = 50;
   borderTopBottom = 0;
   borderLeftRight = 5;
+  deleteRowCalled: boolean = false;
 
   @ViewChild(MatPaginator) paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
@@ -67,7 +68,8 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
 
   memberships: Membership[] = [];
 
-  constructor(private route: ActivatedRoute,
+  constructor(private router: Router,
+              private route: ActivatedRoute,
               private apiService: ApiService,
               private dialog: MatDialog)
   {
@@ -94,8 +96,26 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
     this.getParishionerDetails(this.id);
   }
 
-  onRowClick(row: Group) {
+  onRowClick(row: Meeting) {
+    if(!this.deleteRowCalled){
+      this.router.navigate(['/main/meeting-detail', row.id]);
+    }else{
+      this.deleteRowCalled = false;
+    }
+  }
 
+  deleteRow(row: any) {
+    this.deleteRowCalled = true;
+    console.log(row)
+    this.apiService.removeParishionerFromMeeting(this.id, row.idMeeting).subscribe(
+      (response) => {
+        console.log(response);
+        this.getParishionerDetails(this.id);
+      },
+      (error) => {
+        console.log(error)
+      }
+    )
   }
 
   private getParishionerDetails(id: number) {
@@ -189,10 +209,6 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
 
   editRow(row: AdditionalInfo) {
     console.log()
-  }
-
-  deleteRow(row: AdditionalInfo) {
-    
   }
 
   onSelectionChangeGroups($event: MatOptionSelectionChange) {

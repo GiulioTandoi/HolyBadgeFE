@@ -23,6 +23,7 @@ export class ParishionerToMeetingComponent implements OnInit {
   
   notPartecipants !: Partecipant[];
   filteredParishioners!: Observable<Partecipant[]>;
+  idParishionerSelected!: number;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               private apiService : ApiService,
@@ -31,7 +32,6 @@ export class ParishionerToMeetingComponent implements OnInit {
   ngOnInit() {
     this.getAllNotPartecipants(this.data.idMeeting);
     console.log("NON PARTECIPANTI "+ this.notPartecipants);
-    
   }
   
   private _filter(name: string): Partecipant[] {
@@ -40,8 +40,8 @@ export class ParishionerToMeetingComponent implements OnInit {
     return this.notPartecipants.filter(notPartecipant => notPartecipant.parishioner.name.toLowerCase().indexOf(filterValue) === 0);
   }
 
-  onSubmit(idParishioner: number){
-    this.addParishionerToMeeting(idParishioner)
+  onSubmit(){
+    this.addParishionerToMeeting(this.idParishionerSelected)
   }
 
   addParishionerToMeeting(idParishioner: number){
@@ -58,6 +58,7 @@ export class ParishionerToMeetingComponent implements OnInit {
   }
 
   writeResult(partecipant: Partecipant){
+    this.idParishionerSelected = partecipant.parishioner.id 
     return partecipant.parishioner.name + " " + partecipant.parishioner.surname + ", " + formatDate(partecipant.parishioner.dataNascita, 'dd-MM-yyyy', "EN-en")
   }
 

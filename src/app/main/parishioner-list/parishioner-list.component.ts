@@ -24,8 +24,8 @@ export class ParishionerListComponent implements OnInit, AfterViewInit{
   // Avery 3490
   cellWidth = 50;
   cellHeight = 50;
-  borderTopBottom = 0;
-  borderLeftRight = 5;
+  borderTopBottom = 10;
+  borderLeftRight = 10;
   fabButtonsRandom: MatFabMenu[] = [
     {
       id: 1,
@@ -35,7 +35,7 @@ export class ParishionerListComponent implements OnInit, AfterViewInit{
 
     }
   ];
-  displayedColumns: string[] = ['name', 'surname', 'phoneNumber', 'note','delete'];
+  displayedColumns: string[] = ['name', 'surname', 'phoneNumber', 'dataNascita','delete'];
   dataSource !: MatTableDataSource<Parishioner>;
   deleteRowCalled: boolean = false;
 
@@ -126,10 +126,11 @@ export class ParishionerListComponent implements OnInit, AfterViewInit{
       const barcodeData = this.getBarcodeData(p.id.toString());
       console.log(p)
       const x = colPos * 106 + this.borderLeftRight;
-      const y = this.borderTopBottom + rowPos * (this.cellHeight +18) + 10;
+      const y = this.borderTopBottom + rowPos * (this.cellHeight);
+      console.log("POSIZIONE y " + y);
       document.addImage(barcodeData, "jpeg", x, y, this.cellWidth - 2, this.cellHeight - 2);
-      document.text(`${p.name}`,x+ 54, y + 8, {maxWidth : 30});
-      document.text(`${p.surname}`,x+ 54, y+18, {maxWidth : 30});
+      document.text(`${p.name}`,x+54, y + 8, {maxWidth : 30});
+      document.text(`${p.surname}`,x + 54, y+18, {maxWidth : 30});
 
       colPos++;
       if (colPos >= this.columnsPerPage) {

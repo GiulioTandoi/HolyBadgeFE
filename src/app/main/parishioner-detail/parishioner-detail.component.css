@@ -44,7 +44,6 @@ mat-cell-no-hover{
   color: limegreen;
 }
 
-
 .end-date{
   color: red;
 }
@@ -56,4 +55,8 @@ mat-cell-no-hover{
 }
 .red-icon {
     color: red;
+}
+
+.mat-icon {
+  font-size: 20px;
 }
