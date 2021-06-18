@@ -1,6 +1,7 @@
 import { MatFabMenu } from '@angular-material-extensions/fab-menu';
 import { SelectionModel } from '@angular/cdk/collections';
 import {AfterViewInit, Component, Input, OnInit, ViewChild} from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -10,7 +11,6 @@ import { ApiService } from 'src/app/apis/api.service';
 import { AddParishionerToGroupComponent } from 'src/app/dialogs/add-parishioner-to-group/add-parishioner-to-group.component';
 import { Parishioner } from 'src/app/models/parishioner';
 import { ParishionerOfGroup } from 'src/app/models/parishioner-of-group';
-import {ParishionersToGroup} from "../../models/parishioner-to-group";
 
 @Component({
   selector: 'app-group-detail',
@@ -20,7 +20,7 @@ import {ParishionersToGroup} from "../../models/parishioner-to-group";
 export class GroupDetailComponent implements OnInit, AfterViewInit {
 
   @Input() id !: number
-  displayedColumns: string[] = ['name', 'surname', 'delete'];
+  displayedColumns: string[] = ['name', 'surname', 'dataNascita', 'delete'];
   groupMembers !: ParishionerOfGroup[];
   notGroupMembers !: ParishionerOfGroup[];
   dataSource !: MatTableDataSource<ParishionerOfGroup>;
@@ -38,8 +38,6 @@ export class GroupDetailComponent implements OnInit, AfterViewInit {
     }
   ]
 
-  displayedColumnsForNotMembers: string[] = ['nameNM', 'surnameNM', 'delete'];
-  dataSourceForNotMembers !: MatTableDataSource<ParishionerOfGroup>;
 
   @ViewChild('paginator') paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
@@ -100,6 +98,8 @@ export class GroupDetailComponent implements OnInit, AfterViewInit {
   }
 
   onRowClick(row: Parishioner) {
+    console.log("OnRow called")
+    console.log(row)
     if(!this.deleteRowCalled){
       this.router.navigate(['/main/parishioner-detail', row.id]);
     }else{
@@ -134,7 +134,7 @@ export class GroupDetailComponent implements OnInit, AfterViewInit {
   }
 
   onSubmit() {
-    
+   
   }
 
   openDialog(event : any) {

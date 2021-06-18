@@ -9,7 +9,6 @@ import {AdditionalInfo} from "../../models/additional-info";
 import {Parishioner} from "../../models/parishioner";
 import {FormControl, FormGroup} from "@angular/forms";
 import {MatFabMenu} from "@angular-material-extensions/fab-menu";
-import {AddAdditionalInfoComponent} from "../../dialogs/add-additional-info/add-additional-info.component";
 import {MatDialog} from "@angular/material/dialog";
 import {jsPDF} from 'jspdf';
 import kjua  from 'kjua-svg';
@@ -96,9 +95,9 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
     this.getParishionerDetails(this.id);
   }
 
-  onRowClick(row: Meeting) {
+  onRowClick(row: any) {
     if(!this.deleteRowCalled){
-      this.router.navigate(['/main/meeting-detail', row.id]);
+      this.router.navigate(['/main/meeting-detail', row.idMeeting]);
     }else{
       this.deleteRowCalled = false;
     }

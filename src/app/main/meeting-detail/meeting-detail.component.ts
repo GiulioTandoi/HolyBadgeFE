@@ -46,7 +46,7 @@ export class MeetingDetailComponent implements OnInit {
   });
 
   @Input() id !: number
-  displayedColumns: string[] = ['partecipation', 'name', 'surname', 'memberships', 'delete'];
+  displayedColumns: string[] = ['partecipation', 'name', 'surname', 'dataNascita' ,'memberships', 'delete'];
   meetingPartecipants !: Partecipant[];
   dataSource !: MatTableDataSource<Partecipant>;
   notAddable: boolean= true
@@ -169,7 +169,10 @@ export class MeetingDetailComponent implements OnInit {
   }
 
   onSubmit() {
-    
+    this.apiService.modifyMeeting(this.updateMeetingForm.value).subscribe(
+      response => {this.getMeetingDetails(this.id)},
+      error => {console.error(error)}
+    );
   }
 
 }

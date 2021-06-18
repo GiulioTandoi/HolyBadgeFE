@@ -50,20 +50,22 @@ export class QrScanComponent implements OnInit, AfterViewInit {
     if(this.isEntrance){
      this.apiService.registerEntrance(+$event).subscribe(
          (response) => {
+          console.log(this.status)
            this.status = QrCodeStatus.API_CALL_SUCCESS
          },
          (error) => {
-           
+          console.log(this.status)
            this.status = QrCodeStatus.API_CALL_FAILED
          }
      )}else{
       this.apiService.registerExit(+$event).subscribe(
           (response) => {
+            
             this.openSnackBar(response, 'chiudi')
             this.status = QrCodeStatus.API_CALL_SUCCESS
           },
           (error) => {
-          
+            console.log()
             this.openSnackBar(error.error, 'chiudi')
             this.status = QrCodeStatus.API_CALL_FAILED
           }
