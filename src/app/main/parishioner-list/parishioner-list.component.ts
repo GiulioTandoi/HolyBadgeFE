@@ -10,6 +10,7 @@ import {MatDialog} from "@angular/material/dialog";
 import {AddParishionerComponent} from "../../dialogs/add-parishioner/add-parishioner.component";
 import {jsPDF} from "jspdf";
 import kjua from "kjua-svg";
+import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-parishioner-list',
@@ -91,15 +92,26 @@ export class ParishionerListComponent implements OnInit, AfterViewInit{
 
   deleteRow(row: Parishioner) {
     this.deleteRowCalled = true;
-    this.apiService.removeParishioner(row.id).subscribe(
-      (response) => {
-        console.log(response);
-        this.getParishioners();
-      },
-      (error) => {
-        console.log(error)
+    const dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+    dialogRef2.componentInstance.confirmMessage = "Sei sicuro di voler eliminare questo parrocchiano?"
+
+    dialogRef2.afterClosed().subscribe(result => {
+      if(result) {
+        this.apiService.removeParishioner(row.id).subscribe(
+          (response) => {
+            console.log(response);
+            this.getParishioners();
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
       }
-    )
+      
+    });
+    
   }
 
   openDialog(event : any) {
@@ -110,8 +122,6 @@ export class ParishionerListComponent implements OnInit, AfterViewInit{
         dialogRef.afterClosed().subscribe(result => {
           this.getParishioners()
         });
-        break;
-      default:
         break;
     }
 

@@ -1,0 +1,8 @@
+<h3 md-dialog-title>Conferma</h3>
+<div md-dialog-content>{{confirmMessage}}</div>
+<br>
+<div fxLayoutGap="12px">
+  <button (click)="dialogRef.close(true)">Conferma</button>
+
+  <button (click)="dialogRef.close(false)">Cancella</button>
+</div>

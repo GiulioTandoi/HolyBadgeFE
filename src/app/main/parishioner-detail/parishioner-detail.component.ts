@@ -17,6 +17,7 @@ import {MatOptionSelectionChange} from "@angular/material/core";
 import {Meeting} from "../../models/meeting";
 import { AddMeetingToParishionerComponent } from 'src/app/dialogs/add-meeting-to-parishioner/add-meeting-to-parishioner.component';
 import { formatDate } from '@angular/common';
+import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 
 @Component({
@@ -105,16 +106,26 @@ export class ParishionerDetailComponent implements OnInit, AfterViewInit {
 
   deleteRow(row: any) {
     this.deleteRowCalled = true;
-    console.log(row)
-    this.apiService.removeParishionerFromMeeting(this.id, row.idMeeting).subscribe(
-      (response) => {
-        console.log(response);
-        this.getParishionerDetails(this.id);
-      },
-      (error) => {
-        console.log(error)
+    const dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+    dialogRef2.componentInstance.confirmMessage = "Sei sicuro di voler rimuovere questo incontro?"
+
+    dialogRef2.afterClosed().subscribe(result => {
+      if(result) {
+        console.log(row)
+        this.apiService.removeParishionerFromMeeting(this.id, row.idMeeting).subscribe(
+          (response) => {
+            console.log(response);
+            this.getParishionerDetails(this.id);
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
       }
-    )
+      
+    });
   }
 
   private getParishionerDetails(id: number) {

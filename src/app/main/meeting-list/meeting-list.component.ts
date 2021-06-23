@@ -8,6 +8,7 @@ import {Meeting} from "../../models/meeting";
 import { AddMeetingComponent } from 'src/app/dialogs/add-meeting/add-meeting.component';
 import { MatDialog } from '@angular/material/dialog';
 import { MatFabMenu } from '@angular-material-extensions/fab-menu';
+import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-meeting-list',
@@ -82,15 +83,25 @@ export class MeetingListComponent implements OnInit,AfterViewInit {
 
   deleteRow(row: Meeting) {
     this.deleteRowCalled = true;
-    this.apiService.deleteMeeting(row.id).subscribe(
-      (response) => {
-        console.log(response);
-        this.getMeetings();
-      },
-      (error) => {
-        console.log(error)
+    const dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+    dialogRef2.componentInstance.confirmMessage = "Sei sicuro di voler eliminare questo parrocchiano?"
+
+    dialogRef2.afterClosed().subscribe(result => {
+      if(result) {
+        this.apiService.deleteMeeting(row.id).subscribe(
+          (response) => {
+            console.log(response);
+            this.getMeetings();
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
       }
-    )
+      
+    });
   }
 
   openDialog(event : any) {

@@ -55,6 +55,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatTooltipModule} from "@angular/material/tooltip";
 import { AddMeetingToParishionerComponent } from './dialogs/add-meeting-to-parishioner/add-meeting-to-parishioner.component';
 import { AddParishionerToGroupComponent } from './dialogs/add-parishioner-to-group/add-parishioner-to-group.component';
+import { ConfirmationDialogComponent } from './dialogs/confirmation-dialog/confirmation-dialog.component';
 
 
 // Note we need a separate function as it's required
@@ -106,7 +107,8 @@ const appRoutes: Routes = [
     AddGroupToMeetingComponent,
     MeetingDetailComponent,
     AddMeetingToParishionerComponent,
-    AddParishionerToGroupComponent
+    AddParishionerToGroupComponent,
+    ConfirmationDialogComponent
   ],
     imports: [
         BrowserModule,
@@ -154,7 +156,8 @@ const appRoutes: Routes = [
     ParishionerToMeetingComponent,
     AddGroupToMeetingComponent,
     AddMeetingToParishionerComponent,
-    AddParishionerToGroupComponent
+    AddParishionerToGroupComponent,
+    ConfirmationDialogComponent
   ],
   bootstrap: [AppComponent],
   schemas:[CUSTOM_ELEMENTS_SCHEMA]

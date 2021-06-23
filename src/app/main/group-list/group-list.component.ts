@@ -9,6 +9,7 @@ import {Group} from "../../models/group";
 import { AddGroupComponent } from 'src/app/dialogs/add-group/add-group.component';
 import { MatFabMenu } from '@angular-material-extensions/fab-menu';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-group-list',
@@ -81,15 +82,26 @@ export class GroupListComponent implements OnInit,AfterViewInit {
 
   deleteRow(row: Group) {
     this.deleteRowCalled = true;
-    this.apiService.deleteGroup(row.id).subscribe(
-      (response) => {
-        console.log(response);
-        this.getGroups();
-      },
-      (error) => {
-        console.log(error)
+
+    const dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+    dialogRef2.componentInstance.confirmMessage = "Sei sicuro di voler eliminare questo Gruppo?"
+
+    dialogRef2.afterClosed().subscribe(result => {
+      if(result) {
+        this.apiService.deleteGroup(row.id).subscribe(
+          (response) => {
+            console.log(response);
+            this.getGroups();
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
       }
-    )
+      
+    });
   }
 
   openDialog(event : any) {

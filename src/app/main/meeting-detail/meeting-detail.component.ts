@@ -9,6 +9,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/apis/api.service';
 import { AddGroupToMeetingComponent } from 'src/app/dialogs/add-group-to-meeting/add-group-to-meeting.component';
+import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ParishionerToMeetingComponent } from 'src/app/dialogs/parishioner-to-meeting/parishioner-to-meeting.component';
 import { Meeting } from 'src/app/models/meeting';
 import { Parishioner } from 'src/app/models/parishioner';
@@ -98,15 +99,26 @@ export class MeetingDetailComponent implements OnInit {
 
   deleteRow(row: any) {
     this.deleteRowCalled = true;
-    this.apiService.removeParishionerFromMeeting(row.partecipant.parishioner.id, this.id).subscribe(
-      (response) => {
-        console.log(response);
-        this.getMeetingDetails(this.id);
-      },
-      (error) => {
-        console.log(error)
+    
+    const dialogRef2 = this.dialog.open(ConfirmationDialogComponent, {
+      disableClose: false
+    });
+    dialogRef2.componentInstance.confirmMessage = "Sei sicuro di voler rimuovere questo parrocchiano dall'incontro?"
+
+    dialogRef2.afterClosed().subscribe(result => {
+      if(result) {
+        this.apiService.removeParishionerFromMeeting(row.partecipant.parishioner.id, this.id).subscribe(
+          (response) => {
+            console.log(response);
+            this.getMeetingDetails(this.id);
+          },
+          (error) => {
+            console.log(error)
+          }
+        )    
       }
-    )
+      
+    });
   }
 
   private getMeetingDetails(id: number) {
