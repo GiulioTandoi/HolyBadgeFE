@@ -12,6 +12,7 @@ import { AddGroupToMeetingComponent } from 'src/app/dialogs/add-group-to-meeting
 import { ConfirmationDialogComponent } from 'src/app/dialogs/confirmation-dialog/confirmation-dialog.component';
 import { ParishionerToMeetingComponent } from 'src/app/dialogs/parishioner-to-meeting/parishioner-to-meeting.component';
 import { Meeting } from 'src/app/models/meeting';
+import { Membership } from 'src/app/models/membership';
 import { Parishioner } from 'src/app/models/parishioner';
 import { Partecipant } from 'src/app/models/partecipants';
 
@@ -54,6 +55,7 @@ export class MeetingDetailComponent implements OnInit {
   selection = new SelectionModel<Parishioner>(true, []);
   meetingData!: Meeting;
   deleteRowCalled: boolean = false;
+  membershipOfPartecipant : Membership[] = [] 
 
   @ViewChild('paginator') paginator !: MatPaginator;
   @ViewChild(MatSort) sort !: MatSort;
@@ -125,14 +127,20 @@ export class MeetingDetailComponent implements OnInit {
     this.apiService.getMeetingPartecipants(id).subscribe(
       (response) => {
         console.log(response)
+        
         this.meetingPartecipants = response
         this.meetingPartecipants.forEach(obj => {
           obj.memberships.forEach(childObj=> {
-           childObj 
+           if (childObj.membership){
+            this.membershipOfPartecipant.push(childObj);
+           } 
           });
+          obj.memberships = this.membershipOfPartecipant
+          this.membershipOfPartecipant = []
         });
         this.dataSource.data = this.meetingPartecipants
         this.selection.clear()
+        
       },
       (error) => {
         console.log(error)

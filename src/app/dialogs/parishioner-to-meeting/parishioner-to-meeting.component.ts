@@ -46,6 +46,7 @@ export class ParishionerToMeetingComponent implements OnInit {
 
   addParishionerToMeeting(idParishioner: number){
     console.log("CONTENUTO DEL FORM " + this.partecipantForm.controls.partecipantControl.value);
+    console.log("id parishioner " + idParishioner);
     let idMeeting: number = Number(this.data.idMeeting);
     this.apiService.addParishionerToMeeting({idParishioner, idMeeting}).subscribe(
       (response) => {
