@@ -3,7 +3,7 @@
       <mat-label>Parrocchiano*</mat-label>
       <input type="text" matInput formControlName="memberControl" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
-          <mat-option *ngFor="let member of filteredParishioners | async" [value]="writeResult(member)">
+          <mat-option *ngFor="let member of filteredParishioners | async" [value]="writeResult(member)" (click)="setSelectedParishioner(member)">
             {{member.name}} {{member.surname}}, {{member.dataNascita | date: 'dd-MM-yyyy HH:mm'}}
           </mat-option>
       </mat-autocomplete>

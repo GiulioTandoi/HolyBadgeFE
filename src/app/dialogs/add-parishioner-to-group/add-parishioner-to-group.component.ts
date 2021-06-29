@@ -45,6 +45,7 @@ export class AddParishionerToGroupComponent implements OnInit {
   addParishionerToGroup(idParishioner: number){
     console.log("CONTENUTO DEL FORM " + this.membersForm.controls.memberControl.value);
     let idGroup: number = Number(this.data.idGroup);
+
     this.apiService.addParishionerToGroup({idParishioner, idGroup}).subscribe(
       (response) => {
         this.dialogRef.close(response)
@@ -56,7 +57,6 @@ export class AddParishionerToGroupComponent implements OnInit {
   }
 
   writeResult(member: ParishionerOfGroup){
-    this.idParishionerSelected = member.id 
     return member.name + " " + member.surname + ", " + formatDate(member.dataNascita, 'dd-MM-yyyy', "EN-en")
   }
 
@@ -78,4 +78,7 @@ export class AddParishionerToGroupComponent implements OnInit {
     )
   }
 
+  setSelectedParishioner(member: ParishionerOfGroup) {
+    this.idParishionerSelected = member.id;
+  }
 }
